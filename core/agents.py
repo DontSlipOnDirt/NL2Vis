@@ -42,11 +42,11 @@ class BaseAgent(metaclass=abc.ABCMeta):
         pass
 
 
-class Provider(BaseAgent):
+class Processor(BaseAgent):
     """
     Get database description, extract relative tables & columns, generate augmented explanation and query difficulty
     """
-    name = PROVIDER_NAME
+    name = PROCESSOR_NAME
     description = "Get database description, extract relative tables & columns, generate augmented explanation and query difficulty"
 
     def __init__(self):
@@ -245,7 +245,7 @@ class Provider(BaseAgent):
 
     def _process(self, db_id: str, query: str, db_schema: str) -> dict:
         # 根据用户的查询和数据库模式裁剪数据库。
-        prompt = provider_template.format(db_id=db_id, query=query, db_schema=db_schema)
+        prompt = processor_template.format(db_id=db_id, query=query, db_schema=db_schema)
         world_info = extract_world_info(self._message)
         reply = LLM_API_FUC(prompt, **world_info)
         result = parse_response(reply)
@@ -263,9 +263,9 @@ class Provider(BaseAgent):
         query, tables, db_id = message.get('query'), message.get('tables'), message.get('db_id')
         db_schema = self._get_db_desc_str(tables)
 
-        # # without provider
+        # # without processor
         # message['old_schema'] = db_schema
-        # message['send_to'] = GENERATOR_NAME
+        # message['send_to'] = COMPOSER_NAME
         # return
 
         try:
@@ -284,14 +284,14 @@ class Provider(BaseAgent):
         message['new_schema'] = result['new_schema']
         message['augmented_explanation'] = result['augmented_explanation']
         message['query_difficulty'] = result['query_difficulty']
-        message['send_to'] = GENERATOR_NAME
+        message['send_to'] = COMPOSER_NAME
 
 
-class Generator(BaseAgent):
+class Composer(BaseAgent):
     """
     Decompose the question and solve them using CoT
     """
-    name = GENERATOR_NAME
+    name = COMPOSER_NAME
     description = "Decompose the question and solve them using CoT"
 
     def __init__(self):
@@ -324,8 +324,8 @@ class Generator(BaseAgent):
         # query, schema_info = message.get('query'), message.get('old_schema')
         # prompt = single_template.format(query=query,desc_str=schema_info)
 
-        # # without generator
-        # prompt = without_generator_template.format(query=query, desc_str=schema_info, augmented_explanation=augmented_explanation)
+        # # without composer
+        # prompt = without_composer_template.format(query=query, desc_str=schema_info, augmented_explanation=augmented_explanation)
 
         warning = message.get('warning', False)
         if warning == True:
@@ -356,7 +356,7 @@ class Generator(BaseAgent):
             select = parsed_sql.find(sqlglot.exp.Select)
             select_exprs = select.expressions
             if len(select_exprs) < 2 and warning == False:
-                message['send_to'] = GENERATOR_NAME
+                message['send_to'] = COMPOSER_NAME
                 message['warning'] = True
                 return
         except Exception as e:
@@ -366,13 +366,13 @@ class Generator(BaseAgent):
         message['qa_pairs'] = qa_pairs
         message['fixed'] = False
         message['improved'] = False
-        message['send_to'] = CORRECTOR_NAME
+        message['send_to'] = VALIDATOR_NAME
 
 
-class Corrector(BaseAgent):
+class Validator(BaseAgent):
     # Translate VQL to python language using library{matplotlib, seaborn}
     # Execute python to plot and perform validation
-    name = CORRECTOR_NAME
+    name = VALIDATOR_NAME
     description = "Translate VQL to python language using library{matplotlib, seaborn},and execute to perform validation"
 
     def __init__(self, data_path: str):
@@ -1062,7 +1062,7 @@ print("y_data:", df['{y_col}'].tolist())
 
         # code = message.get('pred', self._translate(db_path, vql, library))
 
-        # # without corrector
+        # # without validator
         # message['pred'] = code
         # message['send_to'] = SYSTEM_NAME
         # return
@@ -1104,7 +1104,7 @@ print("y_data:", df['{y_col}'].tolist())
         #     message['try_times'] = message.get('try_times', 0) + 1
         #     message['pred'] = new_code
         #     message['fixed'] = True
-        #     message['send_to'] = CORRECTOR_NAME  # Send back to Refiner for another try
+        #     message['send_to'] = VALIDATOR_NAME  # Send back to Refiner for another try
 
 
         if not is_need_refine:
@@ -1126,7 +1126,7 @@ print("y_data:", df['{y_col}'].tolist())
             message['final_vql'] = new_vql
             message['pred'] = code
             message['fixed'] = True
-            message['send_to'] = CORRECTOR_NAME  # Send back to Refiner for another try
+            message['send_to'] = VALIDATOR_NAME  # Send back to Refiner for another try
         return
 
 
