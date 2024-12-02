@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from core.agents import Provider, Generator, Corrector
+from core.agents import Processor, Composer, Validator
 from core.const import MAX_ROUND, SYSTEM_NAME, PROVIDER_NAME
 from core.utils import show_svg
 from viseval.dataset import Dataset
@@ -42,9 +42,9 @@ class ChatManager(object):
         self.log_path = log_path
         self.ping_network()
         self.chat_group = [
-            Provider(),
-            Generator(),
-            Corrector(data_path=self.data_path)
+            Processor(),
+            Composer(),
+            Validator(data_path=self.data_path)
         ]
         INIT_LOG__PATH_FUNC(log_path)
 
