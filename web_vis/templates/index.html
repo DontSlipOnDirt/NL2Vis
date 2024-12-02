@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nvAgent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        h2 {
+            color: #666;
+            text-align: center;
+        }
+        .description {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        #uploadForm {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #query {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .file-input-wrapper .btn-file-input {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px 12px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #visualization {
+            max-width: 100%;
+            height: auto;
+        }
+        #progress-container {
+            margin-top: 20px;
+        }
+        #progress-bar {
+            width: 100%;
+            background-color: #f0f0f0;
+            padding: 3px;
+            border-radius: 3px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
+        }
+        #progress-bar-fill {
+            display: block;
+            height: 22px;
+            background-color: #659cef;
+            border-radius: 3px;
+            transition: width 500ms ease-in-out;
+        }
+        .file-input-container {
+            margin-bottom: 15px;
+        }
+        .file-input-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .file-input-button:hover {
+            background-color: #e0e0e0;
+        }
+        #file-names {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        #csvFiles {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>nvAgent</h1>
+    <h2>Visualization Generator</h2>
+    <div class="description">
+        <p><strong>Input Instructions:</strong></p>
+        <ul>
+            <li>Upload single or multiple CSV files</li>
+            <li>Enter a natural language description of the visualization you want</li>
+            <li>Supported chart types:
+                <ul>
+                    <li>Simple charts: bar, pie, scatter, line</li>
+                    <li>Complex charts: stacked bar, grouping line, grouping scatter</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <form id="uploadForm">
+        <div class="file-input-container">
+            <label for="csvFiles" class="file-input-button">Choose CSV File(s)</label>
+            <input type="file" id="csvFiles" accept=".csv" multiple required>
+            <div id="file-names"></div>
+        </div>
+        <textarea id="query" placeholder="Enter your visualization request description" required></textarea>
+        <button type="submit">Generate Visualization</button>
+    </form>
+    <div id="progress-container" style="display:none;">
+        <div id="progress-bar">
+            <span id="progress-bar-fill" style="width: 0%;"></span>
+        </div>
+        <p id="status">Processing...</p>
+    </div>
+    <div id="result">
+        <img id="visualization" style="display: none;">
+        <a id="download" style="display: none;">Download SVG</a>
+    </div>
+
+    <script>
+        // Update file input label
+        document.getElementById('csvFiles').addEventListener('change', function(e) {
+            const fileNames = Array.from(this.files).map(file => file.name);
+            const fileNamesContainer = document.getElementById('file-names');
+            if (fileNames.length > 0) {
+                if (fileNames.length === 1) {
+                    fileNamesContainer.textContent = `Selected file: ${fileNames[0]}`;
+                } else {
+                    fileNamesContainer.textContent = `Selected ${fileNames.length} files: ${fileNames.join(', ')}`;
+                }
+            } else {
+                fileNamesContainer.textContent = 'No files selected';
+            }
+        });
+
+        // Your existing JavaScript code here
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('csvFiles');
+            const query = document.getElementById('query').value;
+
+            const formData = new FormData();
+            for (let i = 0; i < fileInput.files.length; i++) {
+                formData.append('files[]', fileInput.files[i]);
+            }
+
+            try {
+                // Show progress bar
+                document.getElementById('progress-container').style.display = 'block';
+
+                // Start SSE
+                const eventSource = new EventSource('/progress');
+                eventSource.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    document.getElementById('progress-bar-fill').style.width = data.progress + '%';
+                    document.getElementById('status').textContent = data.status;
+                };
+
+                // Upload files
+                const uploadResponse = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const uploadResult = await uploadResponse.json();
+                if (!uploadResponse.ok) throw new Error(uploadResult.error);
+
+                // Generate visualization
+                const generateResponse = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        file_paths: uploadResult.file_paths
+                    })
+                });
+                const generateResult = await generateResponse.json();
+                if (!generateResponse.ok) throw new Error(generateResult.error);
+
+                // Close SSE
+                eventSource.close();
+
+                // Display result
+                const visualization = document.getElementById('visualization');
+                const download = document.getElementById('download');
+                visualization.src = `/download/${generateResult.svg_path}`;
+                visualization.style.display = 'block';
+                download.href = `/download/${generateResult.svg_path}`;
+                download.download = 'visualization.svg';
+                download.style.display = 'block';
+
+                // Hide progress bar
+                document.getElementById('progress-container').style.display = 'none';
+            } catch (error) {
+                alert('Error: ' + error.message);
+                // Hide progress bar
+                document.getElementById('progress-container').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
