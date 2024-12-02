@@ -1,12 +1,12 @@
 MAX_ROUND = 3  # max try times of one agent talk
 
-GENERATOR_NAME = 'Generator'
-CORRECTOR_NAME = 'Corrector'
+COMPOSER_NAME = 'Composer'
+VALIDATOR_NAME = 'Validator'
 SYSTEM_NAME = 'System'
-PROVIDER_NAME = "Provider"
+PROCESSOR_NAME = "Processor"
 
 
-provider_template = """
+processor_template = """
 You are an experienced and professional database administrator. Given a database schema and a user query, your task is to analyze the query, filter the relevant schema, generate an optimized representation, and classify the query difficulty.
 
 Now you can think step by step, following these instructions below.
@@ -757,7 +757,7 @@ Remember:
 - Always verify your answer carefully before submitting.
 """
 
-without_generator_template = """
+without_composer_template = """
 Given a 【Database schema】 with 【Augmented Explanation】 and a 【Question】, generate a valid VQL (Visualization Query Language) sentence. VQL is similar to SQL but includes visualization components.
 
 【Background】
