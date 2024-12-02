@@ -1,1 +1,5 @@
-\textsc{nvAgent: Automated Data Visualization from Natural Language via Collaborative Agent Workflow}
+# nvAgent: Automated Data Visualization from Natural Language via Collaborative Agent Workflow
+
+## Introduction
+
+## Updates
