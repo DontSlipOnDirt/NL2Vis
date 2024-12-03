@@ -12,7 +12,7 @@ We conduct an web interface to demonstrate how to use ***nvAgent*** to generate 
 
 We implement the interface in `web_vis`, and here is an demonstration.
 
-![image](https://github.com/Ouyangliangge/nvAgent/blob/main/assets/tinywow_web_70526330.gif)
+<img src="https://github.com/Ouyangliangge/nvAgent/blob/main/assets/tinywow_web_70526330.gif" width="50%">
 
 
 ## Updates
