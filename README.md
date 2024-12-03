@@ -99,17 +99,18 @@ vision_model = ChatOpenAI(
 Note:
 Here, we use Langchain to implement the interactions.
 
-2. Webdriver:
+2. Others:
 
 ```python
+folder = "E:/visEval_dataset" # your dataset path here
+library = 'matplotlib' # choose matplotlib or seaborn for visualization
 webdriver = Path("C:\Program Files\Google\Chrome\Application\chromedriver.exe") # your chromedriver path here
-```
-
-3. Evaluator
-
-```python
+log_folder = Path("evaluate_logs") # set your evaluation results path
+dataset = Dataset(Path(folder), "all") # choose all,single,multiple for different dataset setting
+agent = ChatManager(data_path=folder, log_path="./test_logs.txt") # set the prompt and response logs path
 evaluator = Evaluator(webdriver_path=webdriver, vision_model=vision_model)
 ```
+
 
 ## 💡Citation
 
