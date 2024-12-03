@@ -74,13 +74,42 @@ pip install package_name
 
 2. Config your API, and file paths.
 
-
+- Edit your api key, api base and api version in `api_config.py`. (We use AzureOpenAI API for nvAgent, and you can replace it with OpenAI)
+- In `chat_manager.py`, replace `folder = "E:/visEval_dataset"` with your own dataset path.
 
 3. Run `llm.py` to test your api config, and run `chat_manager.py` to test nvAgent. (you can find test examples in `visEval.json` in `visEval_dataset`)
 
 ## 🎰Evaluation
 
+After you config nvAgent correctly, you can run `run_evaluate.py` to acquire the final scores. But there are also several configs you need to set before evaluation.
 
+1. Vision model:
+
+We implement the evaluation with a vision language model such as GPT-4o-mini for MLLM-as-a-Judge. And due to the rate limit of Azure API, we choose Openai API for vision model instead:
+
+```python
+vision_model = ChatOpenAI(
+        model_name="gpt-4o-mini",
+        ...
+        base_url="your api base here",
+        api_key="your api key here",
+    )
+```
+
+Note:
+Here, we use Langchain to implement the interactions.
+
+2. Webdriver:
+
+```python
+webdriver = Path("C:\Program Files\Google\Chrome\Application\chromedriver.exe") # your chromedriver path here
+```
+
+3. Evaluator
+
+```python
+evaluator = Evaluator(webdriver_path=webdriver, vision_model=vision_model)
+```
 
 ## 💡Citation
 
