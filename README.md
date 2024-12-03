@@ -19,12 +19,6 @@ We implement the interface in `web_vis`, and here is an demonstration.
 
 ## 🎉Updates
 
-## ⚡Start
-
-
-
-## 🎰Evaluation
-
 ## ⚙️Project Structure
 
 This repo is organized as follows:
@@ -38,18 +32,24 @@ This repo is organized as follows:
 |  ├─llm.py          # config llm api call and write logs
 |  ├─utils.py        # contains utils functions
 ├─web_vis # the interface for nvAgent
-|  ├─
-|  ├─
-|  ├─
+|  ├─core
+|  ├─templates
+|  ├─app.py
 ├─visEval # the evaluation framework
-|  ├─
-|  ├─
-|  ├─
+|  ├─check # contains different check aspects
+|  ├─dataset.py # generate the dataset path mapping
+|  ├─evaluate.py # evaluate the score of agent
 ├─run_evaluate.py # evaluation script
 ├─README.md
 ├─requirements.txt
 ├─visEval_dataset.zip # the dataset used for evaluation
 ```
+
+## ⚡Start
+
+
+
+## 🎰Evaluation
 
 ## 💡Citation
 
