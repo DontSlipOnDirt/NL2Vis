@@ -32,11 +32,7 @@ def init_log_path(my_log_path):
 
 def api_func(prompt:str):
     global MODEL_NAME
-    client = AzureOpenAI(
-        azure_endpoint="https://nv-agent.openai.azure.com/",
-        api_key="5FGygbhO86laoGOvGJOST59kIYNJfpvLPr5pVBl4eexMHbkgl56DJQQJ99AKACi0881XJ3w3AAABACOGNMr3",
-        api_version="2024-02-01"
-    )
+    client = AzureOpenAI()
     response = client.chat.completions.create(
         # engine=MODEL_NAME,
         model=MODEL_NAME,
