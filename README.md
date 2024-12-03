@@ -4,7 +4,7 @@
 
 This is the official repository for the paper ["nvAgent: Automated Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
 
-In this paper, we propose a novel multi-agent framework that integrates preprocessing, \textit{Visualization Query Language} (VQL) generation, and a third stage for output validation and refinement. This comprehensive approach enables *nvAgent* to manage the full complexity of the NL2Vis process, ensuring accuracy and relevance at each step.
+In this paper, we propose a novel multi-agent framework that integrates preprocessing, *Visualization Query Language* (VQL) generation, and a third stage for output validation and refinement. This comprehensive approach enables *nvAgent* to manage the full complexity of the NL2Vis process, ensuring accuracy and relevance at each step.
 
 <img src="./assets/pipeline_1.jpg" align="middle" width="95%">
 
