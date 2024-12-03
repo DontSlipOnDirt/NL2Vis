@@ -2,7 +2,7 @@
 
 ## 🙌Introduction
 
-HI! This is the official repository for the paper ["nvAgent: Automated Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
+Hi! This is the official repository for the paper ["nvAgent: Automated Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
 
 In this paper, we propose a novel multi-agent framework that integrates preprocessing, *Visualization Query Language* (VQL) generation, and a third stage for output validation and refinement. This comprehensive approach enables *nvAgent* to manage the full complexity of the NL2Vis process, ensuring accuracy and relevance at each step.
 
@@ -48,10 +48,48 @@ This repo is organized as follows:
 
 To start with this project, there are several steps you can follow:
 
+1. Set up your local environment
 
+- Create a virtual environment for the project. The recommended Python version is 3.9 or higher.
+
+```bash
+conda create -n nvagent python=3.9
+conda env list
+conda activate nvagent
+```
+
+- Use the provided `requirements.txt` file to install the necessary dependencies.
+
+```bash
+pip install -r requirements.txt
+```
+
+Note:
+If there is any conflict in your packages, try to reinstall them again individually. 
+
+```bash
+pip uninstall package_name
+pip install package_name
+```
+
+2. Config your API, and file paths.
+
+
+
+3. Run `llm.py` to test your api config, and run `chat_manager.py` to test nvAgent. (you can find test examples in `visEval.json` in `visEval_dataset`)
 
 ## 🎰Evaluation
 
+
+
 ## 💡Citation
 
+If you find our work is helpful, please cite as:
+
+```text
+
+```
+
 ## 🪶Contributing
+
+We welcome contributions and suggestions!
