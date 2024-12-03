@@ -6,7 +6,14 @@ This is the official repository for the paper ["nvAgent: Automated Visualization
 
 In this paper, we propose 
 
-## Demo
+## 🎮Demo
+
+We conduct an web interface to demonstrate how to use **nvAgent** to generate visualizations from natural language description. Upload .csv files and enter your requirement to generate visualizations simply.
+
+We implement the interface in `web_vis`, and here is an demonstration.
+
+
+
 
 ## Updates
 
