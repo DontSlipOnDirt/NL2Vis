@@ -16,7 +16,6 @@ We implement the interface in `web_vis`, and here is an demonstration.
 
 <img src="https://github.com/Ouyangliangge/nvAgent/blob/main/assets/tinywow_web_70526330.gif" width="50%">
 
-
 ## 🎉Updates
 
 ## ⚙️Project Structure
@@ -46,6 +45,8 @@ This repo is organized as follows:
 ```
 
 ## ⚡Start
+
+To start with this project, there are several steps you can follow:
 
 
 
