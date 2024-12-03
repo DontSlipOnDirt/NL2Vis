@@ -6,13 +6,15 @@ This is the official repository for the paper ["nvAgent: Automated Visualization
 
 In this paper, we propose 
 
+<img src="./assets/pipeline.pdf" align="middle" width="95%">
+
 ## 🎮Demo
 
 We conduct an web interface to demonstrate how to use ***nvAgent*** to generate visualizations from natural language description. Upload .csv files and enter your requirement to generate visualizations simply.
 
 We implement the interface in `web_vis`, and here is an demonstration.
 
-![image](https://github.com/Ouyangliangge/nvAgent/blob/main/assets/tinywow_web_70526330.gif)
+<img src="https://github.com/Ouyangliangge/nvAgent/blob/main/assets/tinywow_web_70526330.gif" width="50%">
 
 
 ## Updates
