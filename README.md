@@ -2,7 +2,7 @@
 
 ## 🙌Introduction
 
-This is the official repository for the paper ["nvAgent: Automated Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
+HI! This is the official repository for the paper ["nvAgent: Automated Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
 
 In this paper, we propose a novel multi-agent framework that integrates preprocessing, *Visualization Query Language* (VQL) generation, and a third stage for output validation and refinement. This comprehensive approach enables *nvAgent* to manage the full complexity of the NL2Vis process, ensuring accuracy and relevance at each step.
 
@@ -21,9 +21,32 @@ We implement the interface in `web_vis`, and here is an demonstration.
 
 ## ⚡Start
 
+
+
 ## 🎰Evaluation
 
 ## ⚙️Project Structure
+
+This repo is organized as follows:
+
+```txt
+├─core
+|  ├─agents.py       # define three agents class
+|  ├─api_config.py   # config API key and base
+|  ├─chat_manager.py # manage the communication between agents
+|  ├─const.py        # prompt templates
+|  ├─llm.py          # config llm api call and write logs
+|  ├─utils.py        # contains utils functions
+├─web_vis # the interface for nvAgent
+|  ├─
+|  ├─
+|  ├─
+├─run_evaluate.py # evaluation script
+├─README.md
+├─requirements.txt
+├─ # 
+├─ # 
+```
 
 ## 💡Citation
 
