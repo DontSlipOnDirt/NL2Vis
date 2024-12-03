@@ -41,11 +41,14 @@ This repo is organized as follows:
 |  ├─
 |  ├─
 |  ├─
+├─visEval # the evaluation framework
+|  ├─
+|  ├─
+|  ├─
 ├─run_evaluate.py # evaluation script
 ├─README.md
 ├─requirements.txt
-├─ # 
-├─ # 
+├─visEval_dataset.zip # the dataset used for evaluation
 ```
 
 ## 💡Citation
