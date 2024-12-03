@@ -6,7 +6,7 @@ This is the official repository for the paper ["nvAgent: Automated Visualization
 
 In this paper, we propose 
 
-<img src="./assets/pipeline.pdf" align="middle" width="95%">
+<img src="./assets/pipeline_1.jpg" align="middle" width="95%">
 
 ## 🎮Demo
 
