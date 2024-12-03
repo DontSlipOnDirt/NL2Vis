@@ -17,14 +17,14 @@ We implement the interface in `web_vis`, and here is an demonstration.
 <img src="https://github.com/Ouyangliangge/nvAgent/blob/main/assets/tinywow_web_70526330.gif" width="50%">
 
 
-## Updates
+## 🎉Updates
 
-## Start
+## ⚡Start
 
-## Evaluation
+## 🎰Evaluation
 
-## Project Structure
+## ⚙️Project Structure
 
-## Citation
+## 💡Citation
 
-## Contributing
+## 🪶Contributing
