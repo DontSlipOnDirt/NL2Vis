@@ -10,11 +10,11 @@ In this paper, we propose a novel multi-agent framework that integrates preproce
 
 ## 🎮Demo
 
-We conduct an web interface to demonstrate how to use ***nvAgent*** to generate visualizations from natural language description. Upload .csv files and enter your requirement to generate visualizations simply.
+We conduct a web interface to demonstrate how to use ***nvAgent*** to generate visualizations from natural language descriptions. Upload .csv files and enter your requirements to generate visualizations simply.
 
-We implement the interface in `web_vis`, and here is an demonstration.
+We implement the interface in `web_vis`, and here is a demonstration.
 
-<img src="https://github.com/Ouyangliangge/nvAgent/blob/main/assets/tinywow_web_70526330.gif" width="50%">
+<img src="./assets/tinywow_web_70526330.gif" width="50%">
 
 ## 🎉Updates
 
@@ -74,7 +74,7 @@ pip install package_name
 
 2. Config your API, and file paths.
 
-- Edit your api key, api base and api version in `api_config.py`. (We use AzureOpenAI API for nvAgent, and you can replace it with OpenAI)
+- Edit your api key, api base, and api version in `api_config.py`. (We use AzureOpenAI API for nvAgent, and you can replace it with OpenAI)
 - In `chat_manager.py`, replace `folder = "E:/visEval_dataset"` with your own dataset path.
 
 3. Run `llm.py` to test your api config, and run `chat_manager.py` to test nvAgent. (you can find test examples in `visEval.json` in `visEval_dataset`)
@@ -85,7 +85,7 @@ After you config nvAgent correctly, you can run `run_evaluate.py` to acquire the
 
 1. Vision model:
 
-We implement the evaluation with a vision language model such as GPT-4o-mini for MLLM-as-a-Judge. And due to the rate limit of Azure API, we choose Openai API for vision model instead:
+We implement the evaluation with a vision language model such as GPT-4o-mini for MLLM-as-a-Judge. Due to the rate limit of Azure API, we choose Openai API for the vision model instead:
 
 ```python
 vision_model = ChatOpenAI(
