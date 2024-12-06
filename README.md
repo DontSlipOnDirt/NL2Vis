@@ -4,15 +4,15 @@
 
 Hi! This is the official repository for the paper ["nvAgent: Automated Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
 
-In this paper, we propose a novel multi-agent framework that integrates preprocessing, *Visualization Query Language* (VQL) generation, and a third stage for output validation and refinement. This comprehensive approach enables *nvAgent* to manage the full complexity of the NL2Vis process, ensuring accuracy and relevance at each step.
-
+In this paper,  we propose *nvAgent*, a *''turnkey solution''* for automatic data visualization from multiple datasheets with chat-style instruction and a single click. *nvAgent* features a collaborative agent workflow that solves complex NL2Vis tasks with a *''divide-and-conquer''* manner. It consists of three specialized agents—*Processor*, *Composer*, and *Validator*—each optimized for different stages of the visualization generation process with shared memory. *Processor* at first processes database information and filters relevant data to select additional context for shared memory. *Composer* then retrieves information from shared memory to choose strategy, and leverages Visualization Query Language (VQL) as thoughts, constructing sketches and subsequently filling schema components. Finally, *Validator* translates the VQL into Python code, executes it, and validates the output, refining and updating the VQL in shared memory if necessary to ensure accuracy.
+(pipeline in ./assets/pipeline_1.jpg)
 <img src="./assets/pipeline_1.jpg" align="middle" width="95%">
 
 ## 🎮Demo
 
 We conduct a web interface to demonstrate how to use ***nvAgent*** to generate visualizations from natural language descriptions. Upload .csv files and enter your requirements to generate visualizations simply.
 
-We implement the interface in `web_vis`, and here is a demonstration.
+We implement the interface in `web_vis`, and here is a demonstration. (./assets/tinywow_web_70526330.gif)
 
 <img src="./assets/tinywow_web_70526330.gif" width="50%">
 
