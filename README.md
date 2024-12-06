@@ -2,7 +2,7 @@
 
 ## 🙌Introduction
 
-Hi! This is the official repository for the paper ["nvAgent: Automated Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
+Hi! This is the official repository for the paper ["nvAgent: Massive Data Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
 
 In this paper,  we propose *nvAgent*, a *'' turnkey solution''* for automatic data visualization from multiple datasheets with chat-style instruction and a single click. *nvAgent* features a collaborative agent workflow that solves complex NL2Vis tasks with a *''divide-and-conquer''* manner. It consists of three specialized agents—*Processor*, *Composer*, and *Validator*—each optimized for different stages of the visualization generation process with shared memory.
 
