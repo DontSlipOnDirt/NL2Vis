@@ -2,11 +2,10 @@
 
 ## 🙌Introduction
 
-Hi! This is the official repository for the paper ["nvAgent: Massive Data Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
+Hi! This is the official repository for the paper ["nvAgent: Automated Data Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
 
-In this paper,  we propose *nvAgent*, a *'' turnkey solution''* for automatic data visualization from multiple datasheets with chat-style instruction and a single click. *nvAgent* features a collaborative agent workflow that solves complex NL2Vis tasks with a *''divide-and-conquer''* manner. It consists of three specialized agents—*Processor*, *Composer*, and *Validator*—each optimized for different stages of the visualization generation process with shared memory.
-
-*Processor* at first processes database information and filters relevant data to select additional context for shared memory. *Composer* then retrieves information from shared memory to choose strategy, and leverages Visualization Query Language (VQL) as thoughts, constructing sketches and subsequently filling schema components. Finally, *Validator* translates the VQL into Python code, executes it, and validates the output, refining and updating the VQL in shared memory if necessary to ensure accuracy.
+### Abstract
+*Natural Language to Visualization* (NL2Vis) seeks to convert natural-language descriptions into visual representations of given tables, empowering users to derive insights from large-scale data. Recent advancements in Large Language Models (LLMs) show promise in automating code generation to transform tabular data into accessible visualizations. However, they often struggle with complex queries that require reasoning across multiple tables. To address this limitation, we propose a collaborative agent workflow, termed **nvAgent**, for NL2Vis. Specifically, **nvAgent** comprises three agents: a processor agent for database processing and context filtering, a composer agent for planning visualization generation, and a validator agent for code translation and output verification. Comprehensive evaluations on the new VisEval benchmark demonstrate that **nvAgent** consistently surpasses state-of-the-art baselines, achieving a 7.88% improvement in single-table and a 9.23% improvement in multi-table scenarios. Qualitative analyses further highlight that **nvAgent** maintains nearly a 20% performance margin over previous models, underscoring its capacity to produce high-quality visual representations from complex, heterogeneous data sources.
 
 (pipeline in ./assets/pipeline_1.jpg)
 
