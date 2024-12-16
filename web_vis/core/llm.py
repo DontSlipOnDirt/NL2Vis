@@ -111,7 +111,7 @@ def safe_call_llm(input_prompt, **kwargs) -> str:
 
 
 if __name__ == "__main__":
-    res = safe_call_llm('我爸妈结婚为什么不邀请我？')
+    res = safe_call_llm('hello')
     print(res)
 
 
