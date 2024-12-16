@@ -79,15 +79,15 @@ class ChatManager(object):
             "svg_name": log_name
         }
 
-        # 保存原始的 plt.show 函数
+    
         original_show = plt.show
 
         code += "\nsvg_string = show_svg(plt,svg_name)"
         try:
-            # 创建一个不执行任何操作的虚拟 show 函数
+        
             def dummy_show(*args, **kwargs):
                 pass
-                # 临时替换 plt.show
+    
             plt.show = dummy_show
             exec(code, global_env)
             svg_string = global_env["svg_string"]
@@ -97,7 +97,7 @@ class ChatManager(object):
             return ChartExecutionResult(status= False, error_msg= exception_info)
 
         finally:
-            # 恢复原始的 plt.show 函数
+  
             plt.show = original_show
 
 
