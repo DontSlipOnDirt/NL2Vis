@@ -11,9 +11,9 @@ To address this limitation, we propose a collaborative agent workflow, termed **
 
 Comprehensive evaluations on the new VisEval benchmark demonstrate that **nvAgent** consistently surpasses state-of-the-art baselines, achieving a 7.88% improvement in single-table and a 9.23% improvement in multi-table scenarios. Qualitative analyses further highlight that **nvAgent** maintains nearly a 20% performance margin over previous models, underscoring its capacity to produce high-quality visual representations from complex, heterogeneous data sources.
 
-(pipeline in ./assets/pipeline_.png)
+(pipeline in ./assets/pipeline.png)
 
-<img src="./assets/pipeline_.png" align="middle" width="95%">
+<img src="./assets/pipeline.png" align="middle" width="95%">
 
 ## 🎮Demo
 
