@@ -67,18 +67,18 @@ class Provider(BaseAgent):
             'value_count': value_count
         }
 
-    def _get_column_attributes(self, table_path):  # 从数据库中获取指定表的列属性，包括列名、列类型
+    def _get_column_attributes(self, table_path):  
         table = pd.read_csv(table_path)
         column_names = table.columns.tolist()
         column_types = [str(dtype) for dtype in table.dtypes]
         return column_names, column_types
 
-    def _get_unique_column_values_str(self, table_path, column_names, column_types):  # 为表中的每个列生成一串唯一值的示例字符串
+    def _get_unique_column_values_str(self, table_path, column_names, column_types):  
         table = pd.read_csv(table_path)
         col_to_values_str_lst = []
         col_to_values_str_dict = {}
         for idx, column_name in enumerate(column_names):
-            # 查询每列的 distinct value, 从指定的表中选择指定列的值，并按照该列的值进行分组。然后按照每个分组中的记录数量进行降序排序。
+           
             lower_column_name: str = column_name.lower()
             # if lower_column_name ends with [id, email, url], just use empty str
             if lower_column_name.endswith('email') or \
@@ -87,11 +87,11 @@ class Provider(BaseAgent):
                 col_to_values_str_dict[column_name] = values_str
                 continue
 
-            grouped = table.groupby(column_name)  # 按照该列进行分组
-            group_counts = grouped.size()  # 计算组内数量
-            sorted_counts = group_counts.sort_values(ascending=False)  # 降序排列
-            values = sorted_counts.index.values  # 生成唯一值
-            dtype = sorted_counts.index.dtype  # 返回数据类型
+            grouped = table.groupby(column_name)
+            group_counts = grouped.size()  
+            sorted_counts = group_counts.sort_values(ascending=False)  
+            values = sorted_counts.index.values  
+            dtype = sorted_counts.index.dtype  
 
             values_str = ''
             # try to get value examples str, if exception, just use empty str
@@ -101,13 +101,13 @@ class Provider(BaseAgent):
                 print(f"\nerror: get_value_examples_str failed, Exception:\n{e}\n")
 
             col_to_values_str_dict[column_name] = values_str
-        # 转换为 每个列名及其对应的示例值的列表。
+
         for column_name in column_names:
             values_str = col_to_values_str_dict.get(column_name, '')
             col_to_values_str_lst.append([column_name, values_str])
         return col_to_values_str_lst
 
-    def _get_value_examples_str(self, values: List[object], col_type: str):  # 根据列的值类型生成格式化的值示例字符串，最多显示6个值
+    def _get_value_examples_str(self, values: List[object], col_type: str):  
         if not len(values):
             return ''
 
@@ -126,7 +126,7 @@ class Provider(BaseAgent):
             return ''
 
         if len(values) > 10 and col_type in ['int64', 'float64']:
-            vals = vals[:4]  # 只保留前4个值
+            vals = vals[:4]  
             if has_null:
                 vals.insert(0, None)
             return str(vals)
@@ -203,7 +203,7 @@ class Provider(BaseAgent):
         return result
 
     def _build_table_schema_list_str(self, table_name, new_columns_desc, new_columns_val):
-        # 以列表格式构建表模式的描述字符串，包含每个列的信息。包括列名、值示例和额外描述，并以Table: <表名>作为开头。
+      
         table_desc: str = table_name.lower()
         table_desc = table_desc.replace('_', ' ')
         schema_desc_str = ''
@@ -244,7 +244,7 @@ class Provider(BaseAgent):
         return schema_desc_str.strip()
 
     def _process(self, query: str, db_schema: str) -> dict:
-        # 根据用户的查询和数据库模式裁剪数据库。
+        
         prompt = provider_template.format(query=query, db_schema=db_schema)
         world_info = extract_world_info(self._message)
         reply = LLM_API_FUC(prompt, **world_info)
@@ -375,17 +375,17 @@ class Corrector(BaseAgent):
     def _translate_plus(self, vql: str,
                         library="matplotlib"):  # translate vql to python code, with stacked bar chart
         try:
-            # 解析可视化类型
+            
             vis_match = re.search(r'Visualize\s+([\w\s]+)\s+SELECT', vql, re.IGNORECASE)
             if vis_match:
                 vis_type = vis_match.group(1).upper().strip()
             else:
                 raise ValueError("Visualization type not found in VQL")
 
-            # 检查是否有 BIN BY 操作
+            
             bin_clause = re.search(r'BIN\s+(.*?)\s+BY\s+(\w+)', vql, re.IGNORECASE)
 
-            # 提取 SQL 部分
+            
             sql_match = re.search(r'SELECT\s+.+', vql, re.IGNORECASE | re.DOTALL)
             if sql_match:
                 sql = sql_match.group(0)
@@ -395,7 +395,7 @@ class Corrector(BaseAgent):
             sql = re.sub(r'\s+BIN\s+.*?BY\s+\w+', '', sql)
             parsed_sql = sqlglot.parse_one(sql)
 
-            # 解析 SELECT 子句
+            
             select = parsed_sql.find(sqlglot.exp.Select)
             if not select:
                 raise ValueError("SELECT statement not found in SQL")
@@ -405,7 +405,7 @@ class Corrector(BaseAgent):
             group_col = select_exprs[2].alias_or_name
             y_col = select_exprs[1].alias_or_name
 
-            # 如果是聚合函数，给一个明确的别名
+          
             if isinstance(select_exprs[-1], sqlglot.exp.AggFunc):
                 agg_func = select_exprs[-1].key.lower()
                 agg_arg = select_exprs[-1].this.name if hasattr(select_exprs[-1].this, 'name') else str(
@@ -419,7 +419,7 @@ class Corrector(BaseAgent):
                 y_col = f"{agg_func}_{agg_arg}"
                 select_exprs[1] = select_exprs[1].as_(y_col)
 
-            # 重新生成 SQL
+        
             sql = parsed_sql.sql()
             sql = add_group_by(sql, group_col)
 
@@ -427,13 +427,13 @@ class Corrector(BaseAgent):
             if bin_clause:
                 bin_col, bin_type = bin_clause.groups()
                 x_col = bin_col
-                # 添加group by 避免用了bin by 而没有group by导致sql执行错误
+                
                 sql = add_group_by(sql, bin_col)
 
                 bin_code += "# Apply binning operation\n"
-                bin_code += "flag = True\n"  # 标记需要聚合
+                bin_code += "flag = True\n"
 
-                # 处理不同类型的时间分箱
+              
 
                 if bin_type.upper() == 'YEAR':
                     bin_code += f"""
@@ -454,12 +454,12 @@ else:
                     bin_code += f"df['{bin_col}'] = pd.to_datetime(df['{bin_col}'])\n"
                     bin_code += f"df['{x_col}'] = df['{x_col}'].dt.day_name()\n"
 
-                # 使用 sqlglot 解析 SQL
+              
                 parsed_sql = sqlglot.parse_one(sql)
                 select_expr = parsed_sql.find(sqlglot.exp.Select)
-                # 默认使用 COUNT 聚合
+   
                 agg_func = 'size'
-                # 遍历 SELECT 语句中的表达式
+
                 for expr in select_expr.expressions:
                     if isinstance(expr, sqlglot.exp.Alias) and expr.alias == y_col:
                         if isinstance(expr.this, sqlglot.exp.Count):
@@ -469,7 +469,7 @@ else:
                         elif isinstance(expr.this, sqlglot.exp.Avg):
                             agg_func = 'mean'
 
-                # 使用聚合函数计算每个分组
+   
                 if agg_func == 'size':
                     bin_code += f"""
 # Group by and calculate count
@@ -489,15 +489,14 @@ if flag:
     df = df.groupby(['{x_col}', '{group_col}']).mean().reset_index()
 """
 
-                # 对于星期几，确保包含所有七天
                 if bin_type.upper() == 'WEEKDAY':
                     bin_code += f"""
 # Ensure all seven days of the week are included
 weekday_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-# 创建一个包含所有星期和 group_col 组合的 MultiIndex
+
 all_combinations = pd.MultiIndex.from_product([weekday_order, df['{group_col}'].unique()], 
                                               names=['{x_col}', '{group_col}'])
-# 使用这个 MultiIndex 来重新索引数据框，用 0 填充缺失值
+
 df = df.set_index(['{x_col}', '{group_col}'])
 df = df.reindex(all_combinations, fill_value=0).reset_index()
 df['{x_col}'] = pd.Categorical(df['{x_col}'], categories=weekday_order, ordered=True)
@@ -511,27 +510,27 @@ existing_months = df['{x_col}'].unique()
 ordered_existing_months = [month for month in month_order if month in existing_months]
 df['{x_col}'] = pd.Categorical(df['{x_col}'], categories=ordered_existing_months, ordered=True)
 """
-                # 排序逻辑
+             
                 order_by = parsed_sql.find(sqlglot.exp.Order)
                 if order_by:
                     sort_columns = []
                     sort_ascending = []
                     for expr in order_by.expressions:
-                        # 获取原始列名
+                  
                         original_col_name = expr.this.name if isinstance(expr.this, sqlglot.exp.Column) else str(
                             expr.this)
-                        # 如果是被分箱的列，使用新的 x_col 名称
+                        
                         if original_col_name == bin_col:
                             col_name = x_col
                         elif isinstance(expr.this, sqlglot.exp.AggFunc):
-                            # 如果是聚合函数，转换为 aggfunc_colname 格式
+                         
                             agg_func = expr.this.key.lower()
                             agg_arg = expr.this.this.name if hasattr(expr.this.this, 'name') else str(expr.this.this)
                             col_name = f"{agg_func}_{agg_arg}"
                         else:
                             col_name = original_col_name
                         sort_columns.append(col_name)
-                        # DESC 为 False，其他情况（包括 ASC）为 True
+                 
                         sort_ascending.append(expr.args.get('desc', False) == False)
 
                     sort_columns_str = ", ".join([f"'{col}'" for col in sort_columns])
@@ -548,16 +547,16 @@ else:
     df = df.sort_values(['{group_col}', '{x_col}'])
 """
                 else:
-                    # 如果没有 ORDER BY，自动排序
+   
                     bin_code += f"df = df.sort_values(['{group_col}', '{x_col}'])\n"
 
-            # 生成可视化代码
+        
             pivot = False
             vis_code = ""
             if "BAR" in vis_type:
                 if library == 'matplotlib':
                     pivot = True
-                    # pivot会破坏原本的顺序，需要改良，不然stacked bar的order check都是错的
+             
                     vis_code += f"""
 fig,ax = plt.subplots(1,1,figsize=(10,4))
 ax.spines['top'].set_visible(False)
@@ -642,7 +641,7 @@ ax.legend(title='{group_col}', bbox_to_anchor=(1.05, 1), loc='upper left')
 ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 plt.tight_layout()
 """
-            # 生成完整的 Python 代码
+
             python_code = ''
             if library == "seaborn":
                 python_code += "import seaborn as sns\n"
@@ -652,32 +651,32 @@ import pandas as pd
 import os
 import duckdb
 
-# 连接到内存数据库
+
 con = duckdb.connect(database=':memory:')
 
-# 读取所有 CSV 文件并创建视图
+
 csv_files = {self.csv_files}
 for file in csv_files:
     table_name = os.path.splitext(os.path.basename(file))[0]
     file_path = repr(file)
     con.execute(f"CREATE VIEW {{table_name}} AS SELECT * FROM read_csv_auto({{file_path}})")
 
-# 执行 SQL 查询
+
 sql = f'''
 {sql}
 '''
 df = con.execute(sql).fetchdf()
 
-# 重命名列
+
 df.columns = ['{x_col}', '{y_col}', '{group_col}']
 
-# 打印列名，以便调试
+
 # print("Columns in the dataframe:", df.columns)
 
-# 应用 BIN 操作（如果有）
+
 {bin_code}
 
-# 创建可视化
+
 {vis_code}
 """
             if pivot:
@@ -702,23 +701,23 @@ print("y_data (sum for each group):", df.groupby(['{x_col}', '{group_col}'])['{y
             print(f"Error in _translate function: {e}")
             print(f"VQL: {vql}")
             print(f"Parsed SQL: {sql}")
-            # 返回一个错误信息，而不是抛出异常
+
             return f"Error occurred while processing the query: {str(e)}"
 
     def _translate_normal(self, vql: str,
                           library="matplotlib"):  # translate vql to python code using matplotlib or seaborn
         try:
-            # 解析可视化类型
+ 
             vis_type = re.search(r'Visualize\s+(\w+)', vql, re.IGNORECASE).group(1)
-            # 检查是否有 BIN BY 操作
+
             bin_clause = re.search(r'BIN\s+(.*?)\s+BY\s+(\w+)', vql, re.IGNORECASE)
 
-            # 将 VQL 转换为 SQL
+   
             sql = re.sub(r'Visualize\s+\w+\s+', '', vql)
             sql = re.sub(r'\s+BIN\s+.*?BY\s+\w+', '', sql)
-            parsed_sql = sqlglot.parse_one(sql)  # 使用 sqlglot 解析和重新生成 SQL，以确保语法正确
+            parsed_sql = sqlglot.parse_one(sql) 
 
-            # 解析 SELECT 子句
+     
             select = parsed_sql.find(sqlglot.exp.Select)
             if not select:
                 raise ValueError("SELECT statement not found in SQL")
@@ -731,7 +730,7 @@ print("y_data (sum for each group):", df.groupby(['{x_col}', '{group_col}'])['{y
             x_col = select_exprs[0].alias_or_name
             y_col = select_exprs[1].alias_or_name
 
-            # 如果 y_col 是聚合函数，给它一个明确的别名
+       
             if isinstance(select_exprs[1], sqlglot.exp.AggFunc):
                 agg_func = select_exprs[1].key.lower()
                 agg_arg = select_exprs[1].this.name if hasattr(select_exprs[1].this, 'name') else str(
@@ -739,20 +738,20 @@ print("y_data (sum for each group):", df.groupby(['{x_col}', '{group_col}'])['{y
                 y_col = f"{agg_func}_{agg_arg}"
                 select_exprs[1] = select_exprs[1].as_(y_col)
 
-            # 重新生成 SQL
+ 
             sql = parsed_sql.sql()
 
             bin_code = ''
             if bin_clause:
                 bin_col, bin_type = bin_clause.groups()
                 x_col = bin_col
-                # 添加group by 避免用了bin by 而没有group by导致sql执行错误
+             
                 sql = add_group_by(sql, bin_col)
 
                 bin_code += "# Apply binning operation\n"
                 bin_code += "flag = True\n"
 
-                # 处理不同类型的时间分箱
+    
                 if bin_type.upper() == 'YEAR':
                     bin_code += f"""
 is_datetime = pd.api.types.is_datetime64_any_dtype(df['{bin_col}'])
@@ -772,12 +771,12 @@ else:
                     bin_code += f"df['{bin_col}'] = pd.to_datetime(df['{bin_col}'])\n"
                     bin_code += f"df['{x_col}'] = df['{x_col}'].dt.day_name()\n"
 
-                # 使用 sqlglot 解析 SQL
+          
                 parsed_sql = sqlglot.parse_one(sql)
                 select_expr = parsed_sql.find(sqlglot.exp.Select)
-                # 默认使用 COUNT 聚合
+   
                 agg_func = 'size'
-                # 遍历 SELECT 语句中的表达式
+
                 for expr in select_expr.expressions:
                     if isinstance(expr, sqlglot.exp.Alias) and expr.alias == y_col:
                         if isinstance(expr.this, sqlglot.exp.Count):
@@ -787,7 +786,7 @@ else:
                         elif isinstance(expr.this, sqlglot.exp.Avg):
                             agg_func = 'mean'
 
-                # 使用聚合函数计算每个分组
+ 
                 if agg_func == 'size':
                     bin_code += f"""
 # Group by and calculate count
@@ -806,7 +805,7 @@ if flag:
 if flag:
     df = df.groupby('{x_col}').mean().reset_index()
 """
-                # 对于星期几，确保包含所有七天
+      
                 if bin_type.upper() == 'WEEKDAY':
                     bin_code += f"""
 # Ensure all seven days of the week are included
@@ -820,21 +819,21 @@ df['{x_col}'] = pd.Categorical(df['{x_col}'], categories=weekday_order, ordered=
                     sort_columns = []
                     sort_ascending = []
                     for expr in order_by.expressions:
-                        # 获取原始列名
+            
                         original_col_name = expr.this.name if isinstance(expr.this, sqlglot.exp.Column) else str(
                             expr.this)
-                        # 如果是被分箱的列，使用新的 x_col 名称
+          
                         if original_col_name == bin_col:
                             col_name = x_col
                         elif isinstance(expr.this, sqlglot.exp.AggFunc):
-                            # 如果是聚合函数，转换为 aggfunc_colname 格式
+           
                             agg_func = expr.this.key.lower()
                             agg_arg = expr.this.this.name if hasattr(expr.this.this, 'name') else str(expr.this.this)
                             col_name = f"{agg_func}_{agg_arg}"
                         else:
                             col_name = original_col_name
                         sort_columns.append(col_name)
-                        # DESC 为 False，其他情况（包括 ASC）为 True
+
                         sort_ascending.append(expr.args.get('desc', False) == False)
 
                     sort_columns_str = ", ".join([f"'{col}'" for col in sort_columns])
@@ -851,7 +850,7 @@ else:
     df = df.sort_values('{x_col}')
 """
                 else:
-                    # 如果没有 ORDER BY，根据分箱类型决定排序方式
+    
                     if bin_type.upper() == 'MONTH':
                         bin_code += f"""
 # Sort months in chronological order
@@ -865,7 +864,7 @@ df = df.sort_values('{x_col}')
                     else:
                         bin_code += f"df = df.sort_values('{x_col}')\n"
 
-            # 生成可视化代码
+
             vis_code = ""
             if library == 'matplotlib':
                 vis_code = f"""
@@ -899,7 +898,7 @@ ax.set_title('{vis_type} Chart of {y_col} by {x_col}')
 sns.despine()
 plt.tight_layout()
 """
-            # 生成完整的 Python 代码
+
             python_code = ''
             if library == "seaborn":
                 python_code += "import seaborn as sns\n"
@@ -909,17 +908,17 @@ import pandas as pd
 import os
 import duckdb
 
-# 连接到内存数据库
+
 con = duckdb.connect(database=':memory:')
 
-# 读取所有 CSV 文件并创建视图
+
 csv_files = {self.csv_files}
 for file in csv_files:
     table_name = os.path.splitext(os.path.basename(file))[0]
     file_path = repr(file)
     con.execute(f"CREATE VIEW {{table_name}} AS SELECT * FROM read_csv_auto({{file_path}})")
 
-# 执行 SQL 查询
+
 sql = f'''
 {sql}
 '''
@@ -929,13 +928,13 @@ con.close()
 # rename columns
 df.columns = ['{x_col}','{y_col}']
 
-# 打印列名，以便调试
+
 # print("Columns in the dataframe:", df.columns)
 
-# 应用 BIN 操作（如果有）
+
 {bin_code}
 
-# 创建可视化
+
 {vis_code}
 
 # Print data
@@ -948,7 +947,7 @@ print("y_data:", df['{y_col}'].tolist())
             print(f"Error in _translate function: {e}")
             print(f"VQL: {vql}")
             print(f"Parsed SQL: {sql}")
-            # 返回一个错误信息，而不是抛出异常
+   
             return f"Error occurred while processing the query: {str(e)}"
 
     def _translate(self, vql: str, library="matplotlib"):
@@ -967,38 +966,38 @@ print("y_data:", df['{y_col}'].tolist())
         except Exception as e:
             print("error in translate:", e)
 
-    def _execute_python_code(self, code):  # 执行python代码，返回执行结果或者报错信息
-        # 创建一个字符串IO对象来捕获标准输出和错误
+    def _execute_python_code(self, code):  
+
         stdout_capture = io.StringIO()
         stderr_capture = io.StringIO()
 
-        # 存储执行结果
+
         result = {
             'output': '',
             'error': ''
         }
 
-        # 创建一个新的全局命名空间
+       
         exec_globals = {}
 
         try:
-            # 重定向标准输出和错误
+         
             with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
-                # 执行代码
+                
                 exec(code, exec_globals)
-            # 获取标准输出
+   
             result['output'] = stdout_capture.getvalue()
 
         except Exception as e:
-            # 捕获异常并格式化错误信息
+
             result['error'] = f"Error: {str(e)}\n\nTraceback:\n{traceback.format_exc()}"
 
-        # 获取任何标准错误输出
+   
         result['error'] += stderr_capture.getvalue()
 
         return result
 
-    def _is_need_refine(self, exec_result: dict):  # 判断是否需要进行改正
+    def _is_need_refine(self, exec_result: dict): 
         flag = False
         if exec_result['error']:
             flag = True
