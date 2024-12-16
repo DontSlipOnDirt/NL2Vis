@@ -8,7 +8,6 @@ import time
 
 app = Flask(__name__)
 
-# 配置上传文件夹
 UPLOAD_FOLDER = 'uploads'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
