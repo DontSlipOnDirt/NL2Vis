@@ -6,7 +6,7 @@ from core.api_config import *
 from openai import AzureOpenAI
 MAX_TRY = 5
 
-# 用来传递外面的字典进来
+
 world_dict = {}
 
 log_path = None
@@ -26,7 +26,7 @@ def init_log_path(my_log_path):
     dir_name = os.path.dirname(log_path)
     os.makedirs(dir_name, exist_ok=True)
 
-    # 另外一个记录api调用的文件
+
     api_trace_json_path = os.path.join(dir_name, 'api_trace.json')
 
 
@@ -45,9 +45,7 @@ def api_func(prompt:str):
     return text, prompt_token, response_token
 
 def safe_call_llm(input_prompt, **kwargs) -> str:
-    """
-    函数功能描述：输入 input_prompt ，返回 模型生成的内容（内部自动错误重试5次，5次错误抛异常）
-    """
+   
     global MODEL_NAME
     global log_path
     global api_trace_json_path
