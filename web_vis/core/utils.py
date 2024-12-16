@@ -103,7 +103,7 @@ def parse_vql_from_string(response: str):
         return vql_matches[-1].strip()
     else:
 
-        return None  # 或者 raise ValueError("No VQL found in the response")
+        return None
 
 def parse_code_from_string(response: str):
     code_matches = re.findall(r'```python\n(.*?)\n```', response, re.DOTALL)
@@ -112,7 +112,7 @@ def parse_code_from_string(response: str):
 
         return code_matches[-1].strip()
     else:
-        return None  # 或者 raise ValueError("No Python code found in the response")
+        return None
 
 def is_valid_date(date_str):
     if (not isinstance(date_str, str)):
