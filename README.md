@@ -2,7 +2,7 @@
 
 ## 🙌Introduction
 
-Hi! This is the official repository for the paper ["nvAgent: Automated Data Visualization from Natural Language via Collaborative Agent Workflow"](https://xxxxxxxxxxxxxx).
+Hi! This is the official repository for the paper ["nvAgent: Automated Data Visualization from Natural Language via Collaborative Agent Workflow"](https://arxiv.org/abs/2502.05036).
 
 ### Abstract
 *Natural Language to Visualization* (NL2Vis) seeks to convert natural-language descriptions into visual representations of given tables, empowering users to derive insights from large-scale data. Recent advancements in Large Language Models (LLMs) show promise in automating code generation to transform tabular data into accessible visualizations. However, they often struggle with complex queries that require reasoning across multiple tables. 
@@ -124,7 +124,12 @@ evaluator = Evaluator(webdriver_path=webdriver, vision_model=vision_model)
 If you find our work is helpful, please cite as:
 
 ```text
-
+@article{ouyang2025nvagent,
+  title={nvAgent: Automated Data Visualization from Natural Language via Collaborative Agent Workflow},
+  author={Ouyang, Geliang and Chen, Jingyao and Nie, Zhihe and Gui, Yi and Wan, Yao and Zhang, Hongyu and Chen, Dongping},
+  journal={arXiv preprint arXiv:2502.05036},
+  year={2025}
+}
 ```
 
 ## 🪶Contributing
