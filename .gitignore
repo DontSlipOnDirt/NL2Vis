@@ -1,0 +1,8 @@
+
+# files from uv
+.python-version
+pyproject.toml
+uv.lock
+
+# data
+/visEval_dataset
