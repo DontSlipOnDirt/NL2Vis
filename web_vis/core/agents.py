@@ -1,21 +1,24 @@
 from core.utils import parse_response, validate_select_order, add_group_by, parse_vql_from_string, extract_world_info, is_email, is_valid_date_column
 from func_timeout import FunctionTimedOut
+from core.api_config import USE_LOCAL_VLLM
+from core.const import *
+from typing import List
 
 LLM_API_FUC = None
 
-try:
-    from core import api
-
-    LLM_API_FUC = api.safe_call_llm
-    print(f"Use func from core.api in agents.py")
-except:
-    from core import llm
-
-    LLM_API_FUC = llm.safe_call_llm
-    print(f"Use func from core.llm in agents.py")
-
-from core.const import *
-from typing import List
+if USE_LOCAL_VLLM:
+    from core import vllm_client
+    LLM_API_FUC = vllm_client.safe_call_llm
+    print(f"Use vLLM from core.vllm_client in agents.py")
+else:
+    try:
+        from core import api
+        LLM_API_FUC = api.safe_call_llm
+        print(f"Use Azure OpenAI from core.api in agents.py")
+    except:
+        from core import llm
+        LLM_API_FUC = llm.safe_call_llm
+        print(f"Use Azure OpenAI from core.llm in agents.py")
 
 import matplotlib.pyplot as plt
 import os

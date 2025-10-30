@@ -2,13 +2,23 @@
 from core.agents import Provider, Generator, Corrector
 from core.const import MAX_ROUND, SYSTEM_NAME, PROVIDER_NAME
 from core.utils import show_svg
+from core.api_config import USE_LOCAL_VLLM
 import matplotlib.pyplot as plt
 import traceback
 
-from core import llm
-LLM_API_FUC = llm.safe_call_llm
-INIT_LOG__PATH_FUNC = llm.init_log_path
-print(f"Use func from core.llm in chat_manager.py")
+INIT_LOG__PATH_FUNC = None
+LLM_API_FUC = None
+
+if USE_LOCAL_VLLM:
+    from core import vllm_client
+    LLM_API_FUC = vllm_client.safe_call_llm
+    INIT_LOG__PATH_FUNC = vllm_client.init_log_path
+    print(f"Use vLLM from core.vllm_client in chat_manager.py")
+else:
+    from core import llm
+    LLM_API_FUC = llm.safe_call_llm
+    INIT_LOG__PATH_FUNC = llm.init_log_path
+    print(f"Use Azure OpenAI from core.llm in chat_manager.py")
 
 import time
 from pprint import pprint
