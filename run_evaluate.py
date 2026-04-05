@@ -34,7 +34,7 @@ def setup_vision_model() -> Tuple[Optional[object], Optional[str]]:
             print("Vision modules not configured, vision model disabled")
             return None, None
             
-    print("Vision model disabled in config (USE_OPENAI_VISION=False)")
+    print("Vision model critic disabled in config (USE_OPENAI_VISION=False)")
     return None, None
 
 
@@ -74,7 +74,7 @@ def save_results(result, text_model_name: str, vision_model_name: Optional[str],
     Args:
         result: EvaluationResult object
         text_model_name: Name of text model used
-        vision_model_name: Name of vision model used (or None)
+        vision_model_name: Name of vision model critic used (or None)
         library: Visualization library used
         table_type: single, multiple, or all
         log_folder: Path to evaluation log folder

@@ -34,7 +34,7 @@ def main():
     print(f"{'='*60}\n")
     
     # Setup models
-    vision_model, vision_model_name = setup_vision_model() # Uses core.config internally now
+    vision_model, vision_model_name = setup_vision_model()
     text_model_name = get_text_model_name()
     
     # Initialize components
