@@ -14,7 +14,9 @@ ENV/
 env/
 
 # files from uv
-.python-version
+# .python-version
+# uv.lock
+# pyproject.toml
 
 # data
 /visEval_dataset
