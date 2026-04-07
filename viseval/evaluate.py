@@ -7,30 +7,9 @@ import logging
 import os
 from typing import Union
 
-try:
-    import cairosvg
-    CAIROSVG_AVAILABLE = True
-except (ImportError, OSError):
-    CAIROSVG_AVAILABLE = False
-
-# try:
-#     from svglib.svglib import svg2rlg
-#     from reportlab.graphics import renderPM
-#     import io
-#     import tempfile
-#     SVGLIB_AVAILABLE = True
-# except ImportError:
-#     SVGLIB_AVAILABLE = False
-SVGLIB_AVAILABLE = False
-
-
-if not CAIROSVG_AVAILABLE and not SVGLIB_AVAILABLE:
-    print("Warning: Neither cairosvg nor svglib is available. Vision model features requiring SVG to PNG conversion will be disabled.")
-
+import cairosvg
 import pandas as pd
 from attr import dataclass
-
-from core.const import SYSTEM_NAME
 
 from .check import (
     chart_check,
@@ -39,6 +18,7 @@ from .check import (
     layout_check,
     order_check,
     readability_check,
+    surface_form_check,
     scale_and_ticks_check,
 )
 from .dataset import Dataset
@@ -166,8 +146,7 @@ class EvaluationResult:
         ]
         score = {}
         for metric in metrics:
-            if metric in records:
-                score[metric] = records[metric].mean()
+            score[metric] = records[metric].mean()
 
         for key in records.keys():
             if (
@@ -182,33 +161,9 @@ class EvaluationResult:
 
 
 def convert_svg_to_base64(svg_string):
-    if CAIROSVG_AVAILABLE:
-        png_string = cairosvg.svg2png(bytestring=svg_string)
-        base64_encoded = base64.b64encode(png_string).decode("utf-8")
-        return f"data:image/png;base64,{base64_encoded}"
-    # elif SVGLIB_AVAILABLE:
-    #     with tempfile.NamedTemporaryFile(mode='w+', suffix='.svg', delete=False, encoding='utf-8') as f:
-    #         f.write(svg_string)
-    #         temp_path = f.name
-        
-    #     try:
-    #         drawing = svg2rlg(temp_path)
-    #         output = io.BytesIO()
-    #         renderPM.drawToFile(drawing, output, fmt="PNG")
-    #         png_string = output.getvalue()
-    #         base64_encoded = base64.b64encode(png_string).decode("utf-8")
-    #         return f"data:image/png;base64,{base64_encoded}"
-    #     finally:
-    #         try:
-    #             os.remove(temp_path)
-    #         except:
-    #             pass
-    else:
-        raise ImportError(
-            "Neither cairosvg nor svglib is installed. Please install one of them.\n"
-            "pip install cairosvg cairocffi\n"
-            "pip install svglib reportlab"
-        )
+    png_string = cairosvg.svg2png(bytestring=svg_string)
+    base64_encoded = base64.b64encode(png_string).decode("utf-8")
+    return f"data:image/png;base64,{base64_encoded}"
 
 
 class Evaluator:
@@ -217,7 +172,6 @@ class Evaluator:
         self.vision_model = vision_model
 
     def evaluate(self, agent, dataset, config):
-        library = config["library"]
         use_logs = False
         evaluation_details = []
         if "logs" in config:
@@ -240,8 +194,7 @@ class Evaluator:
             codes = []
             instance_results = []
             nl_queries = instance["nl_queries"]
-            db_id = instance['db_id']
-            tables = instance['tables']
+            tables = instance["tables"]
 
             if use_logs:
                 instanceFolder = log_folder / instance["id"]
@@ -273,19 +226,12 @@ class Evaluator:
 
             for index in range(len(nl_queries)):
                 nl_query = nl_queries[index]
-                context = {}
-                context["tables"] = tables
                 if index < len(codes):
                     code = codes[index]
+                    context = {}
+                    context["tables"] = tables
                 else:
-                    message = {
-                        'db_id': db_id,
-                        'query': nl_query,
-                        'tables': tables,
-                        'send_to': SYSTEM_NAME,
-                        'library': library
-                    }
-                    code = agent.start(message)
+                    code, context = agent.generate(nl_query, tables, config)
                     codes.append(code)
                 if code is None:
                     results = [
@@ -337,7 +283,7 @@ class Evaluator:
         return EvaluationResult(dataset, evaluation_details)
 
     def execute(self, code, context, agent, log_name=None) -> CheckResult:
-        result = agent.execute_to_svg(code, log_name)
+        result = agent.execute(code, context, log_name)
         if result.status is False:
             return CheckResult(
                 answer=False, aspect="code execution", rationale=result.error_msg
@@ -350,26 +296,21 @@ class Evaluator:
             rationale="Code executed successfully.",
         )
 
-    def surface_form_check(self, code) -> CheckResult:
-        if "plt.show()" not in code:
-            return CheckResult(
-                answer=False,
-                aspect="surface-form check",
-                rationale="Did not plot visualization.",
-            )
-        else:
-            return CheckResult(
-                answer=True,
-                aspect="surface-form check",
-                rationale="Plotted visualization.",
-            )
+    def surface_form_check(self, context) -> CheckResult:
+        svg_string = context["svg_string"]
+        answer, rationale = surface_form_check(svg_string)
+        return CheckResult(
+            answer=answer,
+            aspect="surface-form check",
+            rationale=rationale,
+        )
 
     def validity_check(self, code, context, agent, log_name=None) -> list[CheckResult]:
         results = []
         result = self.execute(code, context, agent, log_name)
         results.append(result)
         if result.answer:
-            result = self.surface_form_check(code)
+            result = self.surface_form_check(context)
             results.append(result)
 
         return results

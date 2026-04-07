@@ -7,8 +7,8 @@ import json
 import sys
 import warnings
 
-from langchain_core.language_models.chat_models import BaseChatModel
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain.chat_models.base import BaseChatModel
+from langchain.schema import HumanMessage, SystemMessage
 
 INSTRUCTION = """You will be provided with a visualization and its specifications. Consider the following aspect:
 
@@ -35,14 +35,6 @@ def scale_and_ticks_check(context: dict, query: str, vision_model: BaseChatModel
     else:
         x_ticks = encoding["x"]["scale"]["ticks"]
         y_ticks = encoding["y"]["scale"]["ticks"]
-
-        # # Truncate ticks to avoid token explosion
-        # max_ticks = 50
-        # if len(x_ticks) > max_ticks:
-        #     x_ticks = x_ticks[:max_ticks] + ["..."]
-        # if len(y_ticks) > max_ticks:
-        #     y_ticks = y_ticks[:max_ticks] + ["..."]
-            
         ticks_desc = f"Ticks extracted from the visualization:\n- x axis ticks: {','.join(x_ticks)}\n- y axis ticks: {','.join(y_ticks)}\n\n"
     try:
         messages = [
@@ -57,7 +49,7 @@ def scale_and_ticks_check(context: dict, query: str, vision_model: BaseChatModel
                     },
                     {
                         "type": "image_url",
-                        "image_url": {'url': base64,},
+                        "image_url": base64,
                     },
                 ]
             )

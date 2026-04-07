@@ -14,7 +14,7 @@ class Dataset:
     ):
         self.folder = folder
         dict_name = "visEval"
-        if table_type in ["test","single", "multiple"]:
+        if table_type in ["single", "multiple"]:
             dict_name += "_" + table_type
         dict_name += ".json"
         with open(folder / dict_name) as f:
