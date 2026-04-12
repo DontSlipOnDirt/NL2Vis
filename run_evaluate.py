@@ -4,6 +4,8 @@ Usage: python run_evaluate.py
 Example:
 uv run core/vllm_server.py
 uv run run_evaluate.py
+
+grep -oF "evaluation finished." evaluate_logs/evaluation.log | wc -l
 """
 
 import json

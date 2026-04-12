@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "accelerate>=1.13.0",
     "cairocffi>=1.7.1",
     "cairosvg>=2.8.2",
     "cycler>=0.12.1",
@@ -12,6 +13,7 @@ dependencies = [
     "flask>=3.1.2",
     "func-timeout>=4.3.5",
     "kiwisolver>=1.4.9",
+    "langchain>=1.2.15",
     "langchain-community>=0.4.1",
     "langchain-core>=1.0.5",
     "langchain-openai>=1.1.10",
@@ -24,6 +26,8 @@ dependencies = [
     "seaborn>=0.13.2",
     "selenium>=4.39.0",
     "sqlglot>=29.0.1",
+    "torch>=2.10.0",
+    "transformers>=4.57.6",
     "vllm>=0.11.0",
     "websocket-client>=1.9.0",
 ]

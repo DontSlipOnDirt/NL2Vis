@@ -7,8 +7,8 @@ import json
 import sys
 import warnings
 
-from langchain.chat_models.base import BaseChatModel
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.language_models.chat_models import BaseChatModel
+from langchain_core.messages import HumanMessage, SystemMessage
 
 INSTRUCTION = """You will be provided with a visualization and its specifications. Consider the following aspect:
 
@@ -49,7 +49,7 @@ def scale_and_ticks_check(context: dict, query: str, vision_model: BaseChatModel
                     },
                     {
                         "type": "image_url",
-                        "image_url": base64,
+                        "image_url": {"url": base64},
                     },
                 ]
             )

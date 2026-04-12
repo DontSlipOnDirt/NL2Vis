@@ -103,6 +103,38 @@ class ChatManager(object):
         code += "\nplt.show()"
         return code
 
+    def _infer_db_id(self, tables: list[str]) -> Optional[str]:
+        if not tables:
+            return None
+
+        # Table path format is typically: <dataset>/databases/<db_id>/<table>.csv
+        first_table = Path(tables[0])
+        parent = first_table.parent
+        if parent.name:
+            return parent.name
+        return None
+
+    def generate(self, nl_query: str, tables: list[str], config: dict):
+        db_id = self._infer_db_id(tables)
+        message = {
+            "db_id": db_id,
+            "query": nl_query,
+            "tables": tables,
+            "send_to": SYSTEM_NAME,
+            "library": config.get("library", "matplotlib"),
+        }
+
+        code = self.start(message)
+        context = {
+            "db_id": db_id,
+            "query": nl_query,
+            "tables": tables,
+        }
+        return code, context
+
+    def execute(self, code, context, log_name=None):
+        return self.execute_to_svg(code, log_name)
+
     def execute_to_svg(self, code ,log_name:str = None ):
         global_env = {
             "svg_string": None,
