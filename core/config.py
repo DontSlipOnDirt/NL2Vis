@@ -44,7 +44,7 @@ VLLM_BASE_URL = f"http://{VLLM_HOST}:{VLLM_PORT}/v1"
 
 VLLM_MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ"
-# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
+VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
 # VLLM_MODEL_NAME = "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
 # VLLM_MODEL_NAME = "Qwen/Qwen3.5-27B-FP8"
 
