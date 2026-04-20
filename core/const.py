@@ -27,6 +27,7 @@ Now you can think step by step, following these instructions below.
 3. Augmented Explanation:
     - Provide a concise summary of the filtered schema to give additional knowledge.
     - Include the number of tables, total columns, and any notable relationships or patterns.
+  - If multiple tables are used, explicitly mention the likely join keys/path and which table provides the measure column.
 
 4. Classification:
     - For the database new schema, classify it as SINGLE or MULTIPLE based on the tables number.
@@ -173,10 +174,13 @@ e. Time based questions:
 【Constraints】
 - In SELECT <column>, make sure there are at least two selected!!!
 - In FROM <table> or JOIN <table>, do not include unnecessary table
+- If two or more tables are involved, use explicit JOIN ... ON ... with key columns from the schema and avoid cartesian products.
 - Use only table names and column names from the given database schema
 - Enclose string literals in single quotes
 - If [Value examples] of <column> has 'None' or None, use JOIN <table> or WHERE <column> is NOT NULL is better
 - Ensure GROUP BY precedes ORDER BY for distinct values
+- If the question asks for sorting/ranking/top/bottom/highest/lowest/ascending/descending, ORDER BY is mandatory.
+- For BIN BY MONTH or BIN BY WEEKDAY, keep chronological order in ORDER BY when needed.
 - NEVER use window functions in SQL
 
 Now we could think step by step:
@@ -450,10 +454,13 @@ e. Time based questions:
 【Constraints】
 - In SELECT <column>, make sure there are at least two selected!!!
 - In FROM <table> or JOIN <table>, do not include unnecessary table
+- If two or more tables are involved, use explicit JOIN ... ON ... with key columns from the schema and avoid cartesian products.
 - Use only table names and column names from the given database schema
 - Enclose string literals in single quotes
 - If [Value examples] of <column> has 'None' or None, use JOIN <table> or WHERE <column> is NOT NULL is better
 - Ensure GROUP BY precedes ORDER BY for distinct values
+- If the question asks for sorting/ranking/top/bottom/highest/lowest/ascending/descending, ORDER BY is mandatory.
+- For BIN BY MONTH or BIN BY WEEKDAY, keep chronological order in ORDER BY when needed.
 - NEVER use window functions in SQL
 
 Now we could think step by step:
