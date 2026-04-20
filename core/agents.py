@@ -1,4 +1,4 @@
-from core.utils import parse_response, validate_select_order, add_group_by, parse_code_from_string, parse_vql_from_string, extract_world_info, has_order_by, is_email, is_valid_date_column
+from core.utils import parse_response, validate_select_order, add_group_by, parse_code_from_string, parse_vql_from_string, extract_world_info, is_email, is_valid_date_column
 from func_timeout import FunctionTimedOut
 
 LLM_API_FUC = None
@@ -418,10 +418,6 @@ class Composer(BaseAgent):
             prompt = "\n【WARNING】YOU MUST SELECT COLUMNS MORE THAN OR EQUAL TO 2 IN SQL!!!" + prompt \
                      + "\n【REMENBER】YOU MUST SELECT COLUMNS MORE THAN OR EQUAL TO 2 IN SQL!!!" \
                      + "\n【SOLUTION】You can add a column using aggregate functions for existing column"
-        sort_warning = message.get('sort_warning', False)
-        if sort_warning:
-            prompt = "\n【WARNING】The query requires ranking/sorting semantics. You MUST include ORDER BY with the correct target column and direction (ASC/DESC)." + prompt \
-                     + "\n【REMEMBER】If the query asks top/bottom/highest/lowest/ascending/descending/sorted, ORDER BY is mandatory."
         world_info = extract_world_info(self._message)
         reply = LLM_API_FUC(prompt, **world_info).strip()
 
@@ -438,8 +434,6 @@ class Composer(BaseAgent):
             time.sleep(1)
 
         vql = res
-        sort_pattern = r'\b(sort|sorted|order|ascending|descending|asc|desc|top\s+\d+|bottom\s+\d+|highest|lowest|largest|smallest)\b'
-        wants_order = re.search(sort_pattern, query, re.IGNORECASE) is not None
         sql_match = re.search(r'SELECT\s+.+', vql, re.IGNORECASE | re.DOTALL)
         try:
             sql = sql_match.group(0)
@@ -451,10 +445,6 @@ class Composer(BaseAgent):
                 message['send_to'] = COMPOSER_NAME
                 message['warning'] = True
                 return
-            if wants_order and not has_order_by(vql) and sort_warning is False:
-                message['send_to'] = COMPOSER_NAME
-                message['sort_warning'] = True
-                return
         except Exception as e:
             print(e)
 
@@ -462,7 +452,6 @@ class Composer(BaseAgent):
         message['qa_pairs'] = qa_pairs
         message['fixed'] = False
         message['improved'] = False
-        message['sort_warning'] = False
         message['send_to'] = VALIDATOR_NAME
 
 
@@ -476,31 +465,6 @@ class Validator(BaseAgent):
         super().__init__()
         self.data_path = data_path  # path to all databases
         self._message = {}
-
-    def _axis_formatting_code(self, x_col: str, y_col: str) -> str:
-        return f"""
-# Stabilize scale and tick choices to avoid inconsistent defaults.
-if not pd.api.types.is_numeric_dtype(df['{x_col}']):
-    ax.tick_params(axis='x', labelrotation=45)
-try:
-    if pd.api.types.is_datetime64_any_dtype(df['{x_col}']):
-        date_locator = mdates.AutoDateLocator(minticks=3, maxticks=8)
-        ax.xaxis.set_major_locator(date_locator)
-        ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(date_locator))
-    elif pd.api.types.is_numeric_dtype(df['{x_col}']):
-        ax.xaxis.set_major_locator(mticker.MaxNLocator(nbins=8))
-except Exception as _axis_err:
-    print(f"axis x formatting skipped: {{_axis_err}}")
-try:
-    y_numeric = pd.to_numeric(df['{y_col}'], errors='coerce').dropna()
-    if len(y_numeric) > 0:
-        if (y_numeric % 1 == 0).all():
-            ax.yaxis.set_major_locator(mticker.MaxNLocator(integer=True, nbins=8))
-        else:
-            ax.yaxis.set_major_locator(mticker.MaxNLocator(nbins=8))
-except Exception as _axis_err:
-    print(f"axis y formatting skipped: {{_axis_err}}")
-"""
 
     def _translate_plus(self, db_path: str, vql: str,
                         library="matplotlib"):  # translate vql to python code, with stacked bar chart
@@ -554,7 +518,6 @@ except Exception as _axis_err:
             sql = add_group_by(sql, group_col)
 
             bin_code = ''
-            post_sort_code = ''
             if bin_clause:
                 bin_col, bin_type = bin_clause.groups()
                 x_col = bin_col
@@ -607,7 +570,6 @@ else:
                     bin_code += f"""
 # Group by and calculate count
 if flag:
-    df = df.groupby(['{x_col}', '{group_col}']).size().reset_index(name='{y_col}')
 """
                 if agg_func == 'sum':
                     bin_code += f"""
@@ -683,39 +645,10 @@ else:
                 else:
                    
                     bin_code += f"df = df.sort_values(['{group_col}', '{x_col}'])\n"
-            else:
-                order_by = parsed_sql.find(sqlglot.exp.Order)
-                if order_by:
-                    sort_columns = []
-                    sort_ascending = []
-                    for expr in order_by.expressions:
-                        if isinstance(expr.this, sqlglot.exp.Column):
-                            col_name = expr.this.name
-                        elif isinstance(expr.this, sqlglot.exp.AggFunc):
-                            agg_func = expr.this.key.lower()
-                            agg_arg = expr.this.this.name if hasattr(expr.this.this, 'name') else str(expr.this.this)
-                            col_name = f"{agg_func}_{agg_arg}"
-                        else:
-                            col_name = str(expr.this)
-                        sort_columns.append(col_name)
-                        sort_ascending.append(expr.args.get('desc', False) == False)
-
-                    sort_columns_str = ", ".join([f"'{col}'" for col in sort_columns])
-                    sort_ascending_str = ", ".join(map(str, sort_ascending))
-                    post_sort_code = f"""
-# Apply ORDER BY semantics from VQL when possible
-sort_columns = [{sort_columns_str}]
-sort_columns = [col for col in sort_columns if col in df.columns]
-if sort_columns:
-    df = df.sort_values(sort_columns, ascending=[{sort_ascending_str}])
-"""
-                else:
-                    post_sort_code = f"df = df.sort_values(['{group_col}', '{x_col}'])\n"
 
             
             pivot = False
             vis_code = ""
-            axis_formatting_code = self._axis_formatting_code(x_col, y_col)
             if "BAR" in vis_type:
                 if library == 'matplotlib':
                     pivot = True
@@ -732,6 +665,7 @@ ax.set_xlabel('{x_col}')
 ax.set_ylabel('{y_col}')
 ax.set_title('Stacked Bar Chart of {y_col} by {x_col} and {group_col}')
 ax.legend(title='{group_col}', bbox_to_anchor=(1.05, 1), loc='upper left')
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 plt.tight_layout()
 """
                 elif library == 'seaborn':
@@ -744,6 +678,7 @@ ax.set_xlabel('{x_col}')
 ax.set_ylabel('{y_col}')
 ax.set_title('Stacked Bar Chart of {y_col} by {x_col} and {group_col}')
 ax.legend(title='{group_col}', bbox_to_anchor=(1.05, 1), loc='upper left')
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 plt.tight_layout()
 """
             elif "LINE" in vis_type:
@@ -759,6 +694,7 @@ ax.set_xlabel('{x_col}')
 ax.set_ylabel('{y_col}')
 ax.set_title('Grouped Line Chart of {y_col} by {x_col} and {group_col}')
 ax.legend(title='{group_col}', bbox_to_anchor=(1.05, 1), loc='upper left')
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 plt.tight_layout()
 """
                 elif library == 'seaborn':
@@ -771,6 +707,7 @@ ax.set_xlabel('{x_col}')
 ax.set_ylabel('{y_col}')
 ax.set_title('Grouped Line Chart of {y_col} by {x_col} and {group_col}')
 ax.legend(title='{group_col}', bbox_to_anchor=(1.05, 1), loc='upper left')
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 plt.tight_layout()
 """
             elif "SCATTER" in vis_type:
@@ -786,6 +723,7 @@ ax.set_xlabel('{x_col}')
 ax.set_ylabel('{y_col}')
 ax.set_title('Grouped Scatter Plot of {y_col} vs {x_col} by {group_col}')
 ax.legend(title='{group_col}', bbox_to_anchor=(1.05, 1), loc='upper left')
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 plt.tight_layout()
 """
                 elif library == 'seaborn':
@@ -798,17 +736,15 @@ ax.set_xlabel('{x_col}')
 ax.set_ylabel('{y_col}')
 ax.set_title('Grouped Scatter Plot of {y_col} vs {x_col} by {group_col}')
 ax.legend(title='{group_col}', bbox_to_anchor=(1.05, 1), loc='upper left')
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 plt.tight_layout()
 """
-            vis_code += axis_formatting_code
            
             python_code = ''
             if library == "seaborn":
                 python_code += "import seaborn as sns\n"
             python_code += f"""
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import matplotlib.ticker as mticker
 import pandas as pd
 import os
 import duckdb
@@ -836,9 +772,6 @@ df.columns = ['{x_col}', '{y_col}', '{group_col}']
 
 
 # print("Columns in the dataframe:", df.columns)
-
-
-{post_sort_code}
 
 
 {bin_code}
@@ -909,7 +842,6 @@ print("y_data (sum for each group):", df.groupby(['{x_col}', '{group_col}'])['{y
             sql = parsed_sql.sql()
 
             bin_code = ''
-            post_sort_code = ''
             if bin_clause:
                 bin_col, bin_type = bin_clause.groups()
                 x_col = bin_col
@@ -959,7 +891,7 @@ else:
                     bin_code += f"""
 # Group by and calculate count
 if flag:
-    df = df.groupby('{x_col}').size().reset_index(name='{y_col}')
+    df = df.groupby('{x_col}').sum().reset_index()
 """
                 if agg_func == 'sum':
                     bin_code += f"""
@@ -1031,38 +963,9 @@ df = df.sort_values('{x_col}')
                         bin_code += f"df = df.sort_values('{x_col}')\n"
                     else:
                         bin_code += f"df = df.sort_values('{x_col}')\n"
-            else:
-                order_by = parsed_sql.find(sqlglot.exp.Order)
-                if order_by:
-                    sort_columns = []
-                    sort_ascending = []
-                    for expr in order_by.expressions:
-                        if isinstance(expr.this, sqlglot.exp.Column):
-                            col_name = expr.this.name
-                        elif isinstance(expr.this, sqlglot.exp.AggFunc):
-                            agg_func = expr.this.key.lower()
-                            agg_arg = expr.this.this.name if hasattr(expr.this.this, 'name') else str(expr.this.this)
-                            col_name = f"{agg_func}_{agg_arg}"
-                        else:
-                            col_name = str(expr.this)
-                        sort_columns.append(col_name)
-                        sort_ascending.append(expr.args.get('desc', False) == False)
-
-                    sort_columns_str = ", ".join([f"'{col}'" for col in sort_columns])
-                    sort_ascending_str = ", ".join(map(str, sort_ascending))
-                    post_sort_code = f"""
-# Apply ORDER BY semantics from VQL when possible
-sort_columns = [{sort_columns_str}]
-sort_columns = [col for col in sort_columns if col in df.columns]
-if sort_columns:
-    df = df.sort_values(sort_columns, ascending=[{sort_ascending_str}])
-"""
-                else:
-                    post_sort_code = f"df = df.sort_values('{x_col}')\n"
 
            
             vis_code = ""
-            axis_formatting_code = self._axis_formatting_code(x_col, y_col)
             if library == 'matplotlib':
                 vis_code = f"""
 fig,ax = plt.subplots(1,1,figsize=(10,4))
@@ -1075,6 +978,7 @@ ax.spines['right'].set_visible(False)
 ax.set_xlabel('{x_col}')
 ax.set_ylabel('{y_col}')
 ax.set_title(f'{vis_type} Chart of {y_col} by {x_col}')
+{"plt.xticks(rotation=45)" if vis_type != 'PIE' else ""}
 plt.tight_layout()
 """
 
@@ -1090,19 +994,16 @@ ax.spines['right'].set_visible(False)
 ax.set_xlabel('{x_col}')
 ax.set_ylabel('{y_col}')
 ax.set_title('{vis_type} Chart of {y_col} by {x_col}')
+{"plt.xticks(rotation=45)" if vis_type != 'PIE' else ""}
 sns.despine()
 plt.tight_layout()
 """
-            if vis_type != 'PIE':
-                vis_code += axis_formatting_code
             
             python_code = ''
             if library == "seaborn":
                 python_code += "import seaborn as sns\n"
             python_code += f"""
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import matplotlib.ticker as mticker
 import pandas as pd
 import os
 import duckdb
@@ -1131,9 +1032,6 @@ df.columns = ['{x_col}','{y_col}']
 
 
 # print("Columns in the dataframe:", df.columns)
-
-
-{post_sort_code}
 
 
 {bin_code}
