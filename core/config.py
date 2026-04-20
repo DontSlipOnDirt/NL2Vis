@@ -105,3 +105,11 @@ VISION_VLLM_TEMPERATURE = 0.0
 VISION_VLLM_GPU_MEMORY_UTILIZATION = 0.90
 VISION_VLLM_QUANTIZATION = "awq_marlin"
 VISION_VLLM_DTYPE = "auto"
+# =============================================================================
+# Ablation Study Flags
+# These are mutated at runtime by run_ablation.py between runs.
+# =============================================================================
+# Skip Processor LLM call — pass raw DB schema directly to Composer
+ABLATION_SKIP_PROCESSOR = False
+# Use simplified prompt in Composer (without_composer_template) instead of CoT templates
+ABLATION_SKIP_COMPOSER_TEMPLATE = False

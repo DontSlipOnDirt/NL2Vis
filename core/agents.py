@@ -349,10 +349,20 @@ class Processor(BaseAgent):
         query, tables, db_id = message.get('query'), message.get('tables'), message.get('db_id')
         db_schema = self._get_db_desc_str(tables)
 
-        # # without processor
-        # message['old_schema'] = db_schema
-        # message['send_to'] = COMPOSER_NAME
-        # return
+        # Ablation: skip Processor LLM call — forward raw schema directly to Composer
+        try:
+            from core import config as _cfg
+            _skip_processor = getattr(_cfg, 'ABLATION_SKIP_PROCESSOR', False)
+        except ImportError:
+            _skip_processor = False
+
+        if _skip_processor:
+            message['old_schema'] = db_schema
+            message['new_schema'] = db_schema
+            message['augmented_explanation'] = ""
+            message['query_difficulty'] = "SINGLE"
+            message['send_to'] = COMPOSER_NAME
+            return
 
         try:
             result = self._process(db_id=db_id ,query=query, db_schema=db_schema)
@@ -398,20 +408,26 @@ class Composer(BaseAgent):
         query, schema_info, augmented_explanation = message.get('query'), message.get('new_schema'), message.get(
             'augmented_explanation')
         query_difficulty = message.get('query_difficulty', "0")
-        if query_difficulty == "SINGLE":
+
+        # Ablation: use simplified prompt instead of full CoT templates
+        try:
+            from core import config as _cfg
+            _skip_composer_tmpl = getattr(_cfg, 'ABLATION_SKIP_COMPOSER_TEMPLATE', False)
+        except ImportError:
+            _skip_composer_tmpl = False
+
+        if _skip_composer_tmpl:
+            desc_str = schema_info if schema_info else message.get('old_schema', '')
+            prompt = without_composer_template.format(
+                query=query, desc_str=desc_str, augmented_explanation=augmented_explanation or ''
+            )
+        elif query_difficulty == "SINGLE":
             prompt_template = single_template
             schema_info = message.get('old_schema')
-            prompt = prompt_template.format(query=query, desc_str = schema_info)
+            prompt = prompt_template.format(query=query, desc_str=schema_info)
         else:
             prompt_template = multiple_template
             prompt = prompt_template.format(query=query, desc_str=schema_info, augmented_explanation=augmented_explanation)
-
-        # # without processor
-        # query, schema_info = message.get('query'), message.get('old_schema')
-        # prompt = single_template.format(query=query,desc_str=schema_info)
-
-        # # without composer
-        # prompt = without_composer_template.format(query=query, desc_str=schema_info, augmented_explanation=augmented_explanation)
 
         warning = message.get('warning', False)
         if warning == True:
