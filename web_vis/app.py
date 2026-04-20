@@ -420,6 +420,9 @@ def _sidebar() -> tuple:
                 st.rerun()
         else:
             st.caption("No files loaded yet.")
+
+    return page, active_tables
+    
 # ===========================================================================
 def page_quick_generate(active_tables: list) -> None:
     st.header("⚡ Quick Generate")
