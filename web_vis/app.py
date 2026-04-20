@@ -334,29 +334,40 @@ def _sidebar() -> tuple:
     Returns (selected_page: str, active_tables: list[str]).
     """
     with st.sidebar:
+        # ── Header + status ─────────────────────────────────────────────────
         st.markdown("## 📊 NL2Vis")
 
-        # Status strip
         if st.session_state.cfg_use_vllm:
             dot = "🟢" if _server_alive() else "🔴"
             short = _resolved_model().split("/")[-1] or "—"
-            st.caption(f"{dot} vLLM · {short} · :{st.session_state.cfg_port}")
+            st.caption(f"{dot} **{short}** &nbsp;·&nbsp; port {st.session_state.cfg_port}")
         else:
             st.caption("🔵 Azure / OpenAI mode")
 
         st.divider()
 
-        # ── File Picker ──────────────────────────────────────────────────────
-        st.subheader("📂 Data Files")
+        # ── Navigation ───────────────────────────────────────────────────────
+        page = st.radio(
+            "Navigate",
+            ["⚡ Quick Generate", "🔄 Iterative Studio", "⚙️ Server & Config"],
+            key="_page_nav",
+            label_visibility="collapsed",
+        )
 
+        st.divider()
+
+        # ── Data Files ───────────────────────────────────────────────────────
+        st.markdown("**📂 Data Files**")
+
+        # Local filesystem browser
         with st.expander("Browse filesystem", expanded=not st.session_state.csv_files):
             fs_input = st.text_input(
-                "Path or glob (relative to project root)",
+                "Path or glob",
                 placeholder="visEval_dataset/databases/activity_1/*.csv",
+                help="Relative to project root. Supports * globs and bare directories.",
                 key="_fs_input",
-                label_visibility="collapsed",
             )
-            if st.button("Load CSVs", key="_fs_load"):
+            if st.button("Load CSVs", key="_fs_load", use_container_width=True):
                 raw = fs_input.strip()
                 if raw:
                     if not os.path.isabs(raw):
@@ -371,57 +382,44 @@ def _sidebar() -> tuple:
                         found = []
                     n = _add_csv_paths(found)
                     if n:
-                        st.success(f"Added {n} file(s).")
+                        st.toast(f"Added {n} CSV file(s).", icon="✅")
                     else:
                         st.warning("No new CSV files found at that path.")
 
+        # Drag-and-drop upload
         uploaded = st.file_uploader(
-            "Upload CSV files",
+            "Or upload CSV files",
             type=["csv"],
             accept_multiple_files=True,
             key="_uploader",
-            label_visibility="collapsed",
         )
         if uploaded:
             saved = _save_uploads(uploaded)
             n = _add_csv_paths(saved)
             if n:
-                st.success(f"Uploaded {n} file(s).")
+                st.toast(f"Uploaded {n} CSV file(s).", icon="✅")
 
-        # Active table selector
+        # Loaded file list + active selector
         active_tables: list = []
         if st.session_state.csv_files:
-            st.caption(f"{len(st.session_state.csv_files)} file(s) loaded")
+            n_files = len(st.session_state.csv_files)
+            st.caption(f"{n_files} file{'s' if n_files != 1 else ''} loaded")
+
             active_tables = st.multiselect(
-                "Active tables for generation",
+                "Active tables",
                 options=st.session_state.csv_files,
                 default=st.session_state.csv_files,
                 format_func=lambda p: Path(p).stem,
                 key="_active_tables",
-                label_visibility="collapsed",
+                help="Only selected tables are passed to the generation pipeline.",
             )
-            if st.button("🗑 Clear all files", key="_clear_files"):
+
+            if st.button("🗑 Clear all files", key="_clear_files", use_container_width=True):
                 st.session_state.csv_files = []
                 st.session_state._cm = None
                 st.rerun()
         else:
-            st.info("No files loaded. Use the browser or upload above.")
-
-        st.divider()
-
-        # Navigation
-        page = st.radio(
-            "Page",
-            ["⚡ Quick Generate", "🔄 Iterative Studio", "⚙️ Server & Config"],
-            key="_page_nav",
-            label_visibility="collapsed",
-        )
-
-    return page, active_tables
-
-
-# ===========================================================================
-# Page 1 — Quick Generate
+            st.caption("No files loaded yet.")
 # ===========================================================================
 def page_quick_generate(active_tables: list) -> None:
     st.header("⚡ Quick Generate")
