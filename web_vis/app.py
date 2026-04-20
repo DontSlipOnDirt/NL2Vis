@@ -21,8 +21,9 @@ from pathlib import Path
 _WEB_VIS_DIR = Path(__file__).parent.resolve()
 _PROJECT_ROOT = _WEB_VIS_DIR.parent.resolve()
 
-# web_vis/ first so `import core` resolves to web_vis/core
-for _p in [str(_WEB_VIS_DIR), str(_PROJECT_ROOT)]:
+# Insert project root first, then web_vis/ — so web_vis/ ends at index 0
+# and `import core` resolves to web_vis/core, not the root core/
+for _p in [str(_PROJECT_ROOT), str(_WEB_VIS_DIR)]:
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
