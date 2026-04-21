@@ -195,6 +195,10 @@ def save_results(result, text_model_name: str, vision_model_name: Optional[str],
         openai_trace_path = log_folder / "openai_vision_trace.json"
         if openai_trace_path.exists():
             shutil.move(str(openai_trace_path), run_folder / "openai_vision_trace.json")
+
+        # Move entire evaluate_logs folder into the result folder
+        if log_folder.exists():
+            shutil.move(str(log_folder), str(run_folder / log_folder.name))
             
     except Exception as e:
         print(f"Warning: Could not move log files: {e}")

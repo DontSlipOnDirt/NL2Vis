@@ -48,7 +48,7 @@ MODEL_REGISTRY = {
 # Ablation configurations: (label, skip_processor, skip_composer_template)
 # ---------------------------------------------------------------------------
 ABLATION_CONFIGS = [
-    ("full",                 False, False),
+    # ("full",                 False, False),
     ("no_processor",         True,  False),
     ("no_composer_template", False, True),
     ("no_proc_no_comp_tmpl", True,  True),

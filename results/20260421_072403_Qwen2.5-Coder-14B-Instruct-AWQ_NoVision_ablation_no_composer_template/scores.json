@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "text_model": "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ",
+    "vision_model": null,
+    "timestamp": "2026-04-21T07:24:03.673650",
+    "library": "matplotlib",
+    "table_type": "all",
+    "dataset_size": 1150
+  },
+  "scores": {
+    "invalid_rate": 0.1633478260869565,
+    "illegal rate": 0.8127971014492753,
+    "pass_rate": 0.02385507246376812,
+    "readability_score": 0.0,
+    "quality_score": 0.0,
+    "code execution_fail_rate": 0.07262318840579711,
+    "surface-form check_fail_rate": 0.09072463768115942,
+    "deconstruction_fail_rate": 0.0,
+    "chart type check_fail_rate": 0.793927536231884,
+    "data check_fail_rate": 0.8091739130434782,
+    "order check_fail_rate": 0.0036231884057971015,
+    "layout check_fail_rate": 0.0,
+    "scale and ticks check_fail_rate": 0.0
+  },
+  "single_table_scores": {
+    "query_count": 2094,
+    "invalid_rate": 0.08065902578796562,
+    "illegal_rate": 0.8872015281757403,
+    "pass_rate": 0.03213944603629417,
+    "readability_score": 0.0,
+    "quality_score": 0.0
+  },
+  "multi_table_scores": {
+    "query_count": 1356,
+    "invalid_rate": 0.29103982300884956,
+    "illegal_rate": 0.6978982300884956,
+    "pass_rate": 0.011061946902654867,
+    "readability_score": 0.0,
+    "quality_score": 0.0
+  }
+}
