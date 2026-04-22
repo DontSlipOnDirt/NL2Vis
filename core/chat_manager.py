@@ -88,7 +88,7 @@ class ChatManager(object):
             if message['send_to'] == agent.name:
                 agent.talk(message)
 
-    def start(self, user_message: dict):
+    def start(self, user_message: dict, return_timing: bool = False):
         start_time = time.time()
         if user_message['send_to'] == SYSTEM_NAME:  # in the first round, pass message to prune
             user_message['send_to'] = PROCESSOR_NAME
@@ -101,6 +101,8 @@ class ChatManager(object):
         print(f"\033[0;34mExecute {exec_time} seconds\033[0m", flush=True)
         code = user_message.get('pred', "import matplotlib.pyplot as plt")
         code += "\nplt.show()"
+        if return_timing:
+            return code, exec_time
         return code
 
     def _infer_db_id(self, tables: list[str]) -> Optional[str]:
@@ -124,11 +126,12 @@ class ChatManager(object):
             "library": config.get("library", "matplotlib"),
         }
 
-        code = self.start(message)
+        code, exec_time = self.start(message, return_timing=True)
         context = {
             "db_id": db_id,
             "query": nl_query,
             "tables": tables,
+            "inference_time_seconds": exec_time,
         }
         return code, context
 

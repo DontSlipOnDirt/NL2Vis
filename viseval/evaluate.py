@@ -42,6 +42,7 @@ class CheckResult:
 class EvaluationDetail:
     id: str
     results: list[list[CheckResult]]
+    inference_times: list[float | None] | None = None
 
 
 VALID_ASPECTS = ["code execution", "surface-form check"]
@@ -64,11 +65,24 @@ class EvaluationResult:
         for detail in self.details:
             id = detail.id
             instance_results = detail.results
+            inference_times = detail.inference_times or []
+            valid_inference_times = [
+                t for t in inference_times if isinstance(t, (float, int))
+            ]
             count = len(instance_results)
             record = {
                 "id": id,
                 "chart": self.dataset.dict[id]["chart"],
                 "hardness": self.dataset.dict[id]["hardness"],
+                "avg_inference_time_seconds": (
+                    sum(valid_inference_times) / len(valid_inference_times)
+                    if valid_inference_times
+                    else None
+                ),
+                "total_inference_time_seconds": (
+                    sum(valid_inference_times) if valid_inference_times else None
+                ),
+                "inference_count": len(valid_inference_times),
             }
 
             # fail rate
@@ -180,6 +194,12 @@ class Evaluator:
             try:
                 if not isExists:
                     os.makedirs(log_folder)
+                # Reset root logger handlers so basicConfig takes effect even
+                # when called multiple times in the same process (e.g. ablation runs)
+                root_logger = logging.getLogger()
+                for handler in root_logger.handlers[:]:
+                    handler.close()
+                    root_logger.removeHandler(handler)
                 logging.basicConfig(
                     level=logging.INFO,
                     filename=log_folder / "evaluation.log",
@@ -193,6 +213,7 @@ class Evaluator:
         for instance in dataset.benchmark:
             codes = []
             instance_results = []
+            inference_times = []
             nl_queries = instance["nl_queries"]
             tables = instance["tables"]
 
@@ -204,6 +225,7 @@ class Evaluator:
                         data = json.load(f)
                         if "codes" in data and "evaluations" in data:
                             instance_results = []
+                            inference_times = data.get("inference_times", [])
                             for query_result in data["evaluations"]:
                                 results = [
                                     CheckResult(
@@ -215,7 +237,9 @@ class Evaluator:
                                 ]
                                 instance_results.append(results)
                             evaluation_details.append(
-                                EvaluationDetail(instance["id"], instance_results)
+                                EvaluationDetail(
+                                    instance["id"], instance_results, inference_times
+                                )
                             )
                             continue
                 else:
@@ -230,9 +254,11 @@ class Evaluator:
                     code = codes[index]
                     context = {}
                     context["tables"] = tables
+                    inference_times.append(None)
                 else:
                     code, context = agent.generate(nl_query, tables, config)
                     codes.append(code)
+                    inference_times.append(context.get("inference_time_seconds"))
                 if code is None:
                     results = [
                         CheckResult(
@@ -266,7 +292,7 @@ class Evaluator:
                 instance_results.append(results)
 
             evaluation_details.append(
-                EvaluationDetail(instance["id"], instance_results)
+                EvaluationDetail(instance["id"], instance_results, inference_times)
             )
             if use_logs:
                 logging.info(f"Instance ({instance['id']}) evaluation finished.")
@@ -277,7 +303,13 @@ class Evaluator:
                 ]
                 with open(log_folder / (instance["id"] + "/result.json"), "w") as f:
                     f.write(
-                        json.dumps({"codes": codes, "evaluations": instance_results})
+                        json.dumps(
+                            {
+                                "codes": codes,
+                                "evaluations": instance_results,
+                                "inference_times": inference_times,
+                            }
+                        )
                     )
                     f.close()
         return EvaluationResult(dataset, evaluation_details)
