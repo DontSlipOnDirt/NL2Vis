@@ -21,11 +21,10 @@ from pathlib import Path
 _WEB_VIS_DIR = Path(__file__).parent.resolve()
 _PROJECT_ROOT = _WEB_VIS_DIR.parent.resolve()
 
-# Insert project root first, then web_vis/ — so web_vis/ ends at index 0
-# and `import core` resolves to web_vis/core, not the root core/
-for _p in [str(_PROJECT_ROOT), str(_WEB_VIS_DIR)]:
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+# Insert paths in correct order: PROJECT_ROOT first, then WEB_VIS_DIR
+# This ensures `import core` from web_vis resolves to web_vis/core first
+sys.path.insert(0, str(_PROJECT_ROOT))  # Insert first (goes to index 0)
+sys.path.insert(0, str(_WEB_VIS_DIR))   # Insert again at index 0 (pushes PROJECT_ROOT to index 1)
 
 # ---------------------------------------------------------------------------
 # Load root core/config.py without name-colliding with web_vis/core
@@ -130,8 +129,14 @@ def _get_chat_manager(csv_files: list) -> ChatManager:
     key = _cm_cache_key(csv_files)
     if st.session_state._cm is None or st.session_state._cm_key != key:
         _LOG_DIR.mkdir(parents=True, exist_ok=True)
-        st.session_state._cm = ChatManager(csv_files=csv_files, log_path=_LOG_PATH)
-        st.session_state._cm_key = key
+
+        try:
+            st.session_state._cm = ChatManager(csv_files=csv_files, log_path=_LOG_PATH)
+            st.session_state._cm_key = key
+        except Exception as e:
+            st.error(f"Failed to initialize ChatManager:\n{str(e)}")
+            raise
+
     return st.session_state._cm
 
 
@@ -173,19 +178,31 @@ def _log_reader_thread(proc: subprocess.Popen) -> None:
 
 
 def _stop_vllm_server() -> None:
+    """Stop the vLLM server process and clean up resources."""
     proc = st.session_state.vllm_proc
+
     if proc is not None and proc.poll() is None:
+        st.info("Stopping vLLM server...")
         proc.terminate()
+
         try:
             proc.wait(timeout=10)
+            st.success("Server stopped gracefully.")
         except subprocess.TimeoutExpired:
+            st.warning("Server didn't stop gracefully, forcing termination...")
             proc.kill()
+            proc.wait(timeout=5)
+            st.warning("Server force-stopped.")
+
+    # Clean up references
     st.session_state.vllm_proc = None
-    st.session_state._cm = None  # force manager recreation on next use
+    st.session_state._vllm_log_thread = None
+    st.session_state._cm = None  # Force ChatManager recreation
 
 
 def _start_vllm_server() -> None:
-    _stop_vllm_server()
+    """Start the vLLM server process."""
+    _stop_vllm_server()  # Ensure clean state
 
     model = _resolved_model()
     if not model:
@@ -210,34 +227,64 @@ def _start_vllm_server() -> None:
     ts = datetime.datetime.now().strftime("%H:%M:%S")
     st.session_state.vllm_logs = [f"[{ts}] Launching: {' '.join(cmd)}"]
 
-    proc = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        cwd=str(_PROJECT_ROOT),
-    )
-    st.session_state.vllm_proc = proc
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            cwd=str(_PROJECT_ROOT),
+        )
+        st.session_state.vllm_proc = proc
 
-    t = threading.Thread(target=_log_reader_thread, args=(proc,), daemon=True)
-    t.start()
-    st.session_state._vllm_log_thread = t
+        # Start log reader thread
+        t = threading.Thread(target=_log_reader_thread, args=(proc,), daemon=True)
+        t.start()
+        st.session_state._vllm_log_thread = t
+
+        st.success(f"Server process started (PID {proc.pid}). Monitor logs below.")
+        st.info("⏳ Wait ~30-60 seconds for model loading before generating visualizations.")
+
+    except Exception as e:
+        st.error(f"Failed to start server: {e}")
+        st.session_state.vllm_proc = None
 
 
 # ===========================================================================
 # File helpers
 # ===========================================================================
 def _add_csv_paths(paths: list) -> int:
-    """Add resolved CSV paths to session state, deduplicating. Returns count added."""
+    """Add resolved CSV paths to session state, validating files first. Returns count added."""
     existing = set(st.session_state.csv_files)
     added = 0
+    errors = []
+
     for p in paths:
         p = str(Path(p).resolve())
-        if p.lower().endswith(".csv") and p not in existing:
-            st.session_state.csv_files.append(p)
-            existing.add(p)
-            added += 1
+
+        if not p.lower().endswith(".csv"):
+            continue
+
+        if p in existing:
+            continue
+
+        # Validate CSV is readable
+        try:
+            import pandas as pd
+            pd.read_csv(p, nrows=1)  # Just read first row to validate
+        except Exception as e:
+            errors.append(f"{Path(p).name}: {str(e)}")
+            continue
+
+        st.session_state.csv_files.append(p)
+        existing.add(p)
+        added += 1
+
+    if errors:
+        st.warning(f"Skipped {len(errors)} invalid CSV files:\n" + "\n".join(errors[:5]))
+
     if added:
-        st.session_state._cm = None
+        st.session_state._cm = None  # Invalidate cached ChatManager
+
     return added
 
 
@@ -738,16 +785,35 @@ def page_server_config() -> None:
                     key="_be_openai_key",
                 )
                 if st.button("Apply credentials", key="_be_apply"):
-                    if az_ep:
-                        os.environ["AZURE_OPENAI_ENDPOINT"] = az_ep
-                    if az_key:
-                        os.environ["AZURE_OPENAI_API_KEY"] = az_key
-                    if az_model:
-                        os.environ["AZURE_MODEL_NAME"] = az_model
-                    if openai_key:
-                        os.environ["OPENAI_API_KEY"] = openai_key
-                    st.session_state._cm = None
-                    st.success("Credentials applied. Next generation will use these settings.")
+                    errors = []
+
+                    # Validate inputs
+                    if az_ep and not az_ep.startswith("https://"):
+                        errors.append("Azure endpoint must start with https://")
+                    if az_key and len(az_key) < 20:
+                        errors.append("Azure API key seems too short (expected 32+ chars)")
+                    if not az_model:
+                        errors.append("Model/deployment name is required")
+
+                    if errors:
+                        st.error("Validation failed:\n" + "\n".join(f"• {e}" for e in errors))
+                    else:
+                        # Apply to environment
+                        if az_ep:
+                            os.environ["AZURE_OPENAI_ENDPOINT"] = az_ep
+                        if az_key:
+                            os.environ["AZURE_OPENAI_API_KEY"] = az_key
+                        if az_model:
+                            os.environ["AZURE_MODEL_NAME"] = az_model
+                        if openai_key:
+                            os.environ["OPENAI_API_KEY"] = openai_key
+
+                        # Force ChatManager recreation
+                        st.session_state._cm = None
+                        st.session_state._cm_key = None
+
+                        st.success("✓ Credentials applied. Next generation will use these settings.")
+                        st.info("Note: Credentials are not persisted—set them again on next app restart.")
 
 
 # ===========================================================================

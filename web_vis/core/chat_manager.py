@@ -60,13 +60,22 @@ class ChatManager(object):
         INIT_LOG_PATH_FUNC(log_path)
 
     def ping_network(self):
-        # check network status
-        print("Checking network status...", flush=True)
+        """Check if LLM backend is accessible."""
+        print("Checking LLM backend status...", flush=True)
         try:
             _ = LLM_API_FUC("Hello world!")
-            print("Network is available", flush=True)
+            print("✓ LLM backend is available", flush=True)
         except Exception as e:
-            raise Exception(f"Network is not available: {e}")
+            error_msg = f"✗ LLM backend is not available: {e}\n\n"
+
+            if "USE_VLLM" in str(e) or "vllm" in str(e).lower():
+                error_msg += "Hint: Make sure vLLM server is running (start via Server & Config page)"
+            elif "AZURE" in str(e) or "azure" in str(e).lower():
+                error_msg += "Hint: Check Azure OpenAI credentials in Server & Config page"
+            else:
+                error_msg += "Hint: Check core/config.py settings or toggle LLM backend"
+
+            raise Exception(error_msg)
 
     def _chat_single_round(self, message: dict):
         # we use `dict` type so value can be changed in the function

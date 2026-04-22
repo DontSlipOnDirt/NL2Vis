@@ -17,10 +17,14 @@ pip install -r requirements.txt
 Start from repository root:
 
 ```bash
-python web_vis/app.py
+streamlit run web_vis/app.py
 ```
 
-Then open the local URL shown by Flask (default is typically `http://127.0.0.1:5000`).
+The app will open in your browser at `http://localhost:8501`.
+
+**Prerequisites:**
+- vLLM server running (start with `python -m core.vllm_server`) OR
+- Azure OpenAI credentials configured (set in UI under Server & Config tab)
 
 ## How It Works
 
