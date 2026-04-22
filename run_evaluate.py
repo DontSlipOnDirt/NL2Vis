@@ -6,6 +6,7 @@ uv run core/vllm_server.py
 uv run run_evaluate.py
 
 grep -oF "evaluation finished." evaluate_logs/evaluation.log | wc -l
+find evaluate_logs -type f -name '*.svg' | wc -l
 """
 
 import json

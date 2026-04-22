@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "text_model": "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8",
+    "vision_model": null,
+    "timestamp": "2026-04-21T10:26:09.088958",
+    "library": "matplotlib",
+    "table_type": "all",
+    "dataset_size": 1150
+  },
+  "scores": {
+    "invalid_rate": 0.051,
+    "illegal rate": 0.21176811594202896,
+    "pass_rate": 0.7372318840579709,
+    "readability_score": 0.0,
+    "quality_score": 0.0,
+    "code execution_fail_rate": 0.049695652173913044,
+    "surface-form check_fail_rate": 0.0013043478260869566,
+    "deconstruction_fail_rate": 0.0,
+    "chart type check_fail_rate": 0.02136231884057971,
+    "data check_fail_rate": 0.13863768115942027,
+    "order check_fail_rate": 0.07295652173913043,
+    "layout check_fail_rate": 0.0,
+    "scale and ticks check_fail_rate": 0.0
+  },
+  "single_table_scores": {
+    "query_count": 2094,
+    "invalid_rate": 0.04668099331423114,
+    "illegal_rate": 0.19844794651384906,
+    "pass_rate": 0.7548710601719197,
+    "readability_score": 0.0,
+    "quality_score": 0.0
+  },
+  "multi_table_scores": {
+    "query_count": 1356,
+    "invalid_rate": 0.057669616519174044,
+    "illegal_rate": 0.2323377581120944,
+    "pass_rate": 0.7099926253687315,
+    "readability_score": 0.0,
+    "quality_score": 0.0
+  }
+}

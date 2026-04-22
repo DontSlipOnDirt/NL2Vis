@@ -42,6 +42,7 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 MODEL_REGISTRY = {
     "qwen14b": "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ",
     "qwen30b": "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8",
+    "qwen32b": "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ",
 }
 
 # ---------------------------------------------------------------------------
