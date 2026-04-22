@@ -1,4 +1,5 @@
 .env
+.vscode/
 
 # Python cache
 __pycache__/
@@ -34,3 +35,7 @@ openai_vision_trace.json
 # Temporary files
 *.svg
 temp_*.svg
+
+# claude code
+CLAUDE.md
+.claude/

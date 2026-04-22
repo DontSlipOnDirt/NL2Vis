@@ -45,11 +45,19 @@ VLLM_BASE_URL = f"http://{VLLM_HOST}:{VLLM_PORT}/v1"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct-AWQ"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ"
-VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
-# VLLM_MODEL_NAME = "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
-# VLLM_MODEL_NAME = "Qwen/Qwen3.5-27B-FP8"
+# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
+VLLM_MODEL_NAME = "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
+# VLLM_MODEL_NAME = "Qwen/Qwen3.6-27B-FP8"
 
+# VLLM_MODEL_NAME = "Qwen/Qwen3.5-27B-FP8"
+# VLLM_MODEL_NAME = "Qwen/Qwen3.6-35B-A3B-FP8"
+# VLLM_MODEL_NAME = "unsloth/Qwen3.6-35B-A3B-GGUF:UD-Q4_K_XL"
 # VLLM_MODEL_NAME = "google/gemma-4-31B-it"
+
+# For GGUF models, you must specify the tokenizer separately
+# For non-GGUF models, set to None to auto-infer from model
+# VLLM_TOKENIZER = "Qwen/Qwen3.6-35B-A3B"
+VLLM_TOKENIZER = None
 
 VLLM_MAX_MODEL_LEN = 8192
 VLLM_MAX_TOKENS = 1024

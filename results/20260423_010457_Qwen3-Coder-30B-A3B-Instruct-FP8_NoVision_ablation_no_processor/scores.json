@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "text_model": "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8",
+    "vision_model": null,
+    "timestamp": "2026-04-23T01:04:57.326041",
+    "library": "matplotlib",
+    "table_type": "all",
+    "dataset_size": 1150
+  },
+  "scores": {
+    "invalid_rate": 0.04897101449275362,
+    "illegal rate": 0.2130289855072464,
+    "pass_rate": 0.7380000000000001,
+    "readability_score": 0.0,
+    "quality_score": 0.0,
+    "avg_inference_time_seconds": 2.0048070053067018,
+    "total_inference_time_seconds": 3.738393991511801,
+    "inference_count": 2.194782608695652,
+    "code execution_fail_rate": 0.04766666666666666,
+    "surface-form check_fail_rate": 0.0013043478260869566,
+    "deconstruction_fail_rate": 0.0,
+    "chart type check_fail_rate": 0.022231884057971014,
+    "data check_fail_rate": 0.13902898550724638,
+    "order check_fail_rate": 0.07382608695652175,
+    "layout check_fail_rate": 0.0,
+    "scale and ticks check_fail_rate": 0.0
+  },
+  "single_table_scores": {
+    "query_count": 2094,
+    "invalid_rate": 0.045964660936007644,
+    "illegal_rate": 0.1941499522445081,
+    "pass_rate": 0.7598853868194841,
+    "readability_score": 0.0,
+    "quality_score": 0.0
+  },
+  "multi_table_scores": {
+    "query_count": 1356,
+    "invalid_rate": 0.053613569321533924,
+    "illegal_rate": 0.24218289085545722,
+    "pass_rate": 0.7042035398230089,
+    "readability_score": 0.0,
+    "quality_score": 0.0
+  }
+}

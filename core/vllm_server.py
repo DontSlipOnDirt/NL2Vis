@@ -11,6 +11,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from core.config import (
     VLLM_MODEL_NAME,
+    VLLM_TOKENIZER,
     VLLM_HOST,
     VLLM_PORT,
     VLLM_MAX_MODEL_LEN,
@@ -27,6 +28,7 @@ def start_vllm_server():
     print("Starting vLLM Server")
     print("=" * 60)
     print(f"Model: {VLLM_MODEL_NAME}")
+    print(f"Tokenizer: {VLLM_TOKENIZER if VLLM_TOKENIZER else 'Auto (from model)'}")
     print(f"Host: {VLLM_HOST}")
     print(f"Port: {VLLM_PORT}")
     print(f"Max Model Length: {VLLM_MAX_MODEL_LEN}")
@@ -34,7 +36,7 @@ def start_vllm_server():
     print(f"Quantization: {VLLM_QUANTIZATION}")
     print(f"Dtype: {VLLM_DTYPE}")
     print("=" * 60)
-    
+
     # Build command
     cmd = [
         sys.executable, "-m", "vllm.entrypoints.openai.api_server",
@@ -45,7 +47,18 @@ def start_vllm_server():
         "--gpu-memory-utilization", str(VLLM_GPU_MEMORY_UTILIZATION),
         "--dtype", VLLM_DTYPE
     ]
-    
+
+    # Add tokenizer if specified (required for GGUF models)
+    if VLLM_TOKENIZER:
+        cmd.extend(["--tokenizer", VLLM_TOKENIZER])
+
+        # For GGUF models, explicitly set load format
+    if "GGUF" in VLLM_MODEL_NAME.upper() or ":" in VLLM_MODEL_NAME:
+        cmd.extend(["--load-format", "gguf"])
+    # Add quantization if specified
+    elif VLLM_QUANTIZATION:
+        cmd.extend(["--quantization", VLLM_QUANTIZATION])
+
     # Add quantization if specified
     if VLLM_QUANTIZATION:
         cmd.extend(["--quantization", VLLM_QUANTIZATION])
