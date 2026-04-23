@@ -160,6 +160,10 @@ class EvaluationResult:
 
     def score(self):
         records = self.detail_records()
+        rename_score_key = lambda key: {
+            "total_inference_time": "avg_total_inference_time",
+            "inference_count": "avg_inference_count",
+        }.get(key, key)
         metrics = [
             "invalid_rate",
             "illegal rate",
@@ -178,10 +182,8 @@ class EvaluationResult:
                 and key != "chart"
                 and key != "hardness"
             ):
-                score[key] = records[key].mean()
-
-        if "total_inference_time" in score:
-            score["avg_total_inference_time"] = score.pop("total_inference_time")
+                output_key = rename_score_key(key)
+                score[output_key] = records[key].mean()
 
         for key in ["avg_inference_time", "avg_total_inference_time", "inference_count"]:
             if key in score and score[key] is not None:

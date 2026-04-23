@@ -1,0 +1,151 @@
+id,chart,hardness,avg_inference_time,total_inference_time,inference_count,code execution_fail_rate,surface-form check_fail_rate,deconstruction_fail_rate,chart type check_fail_rate,data check_fail_rate,order check_fail_rate,layout check_fail_rate,scale and ticks check_fail_rate,invalid_rate,illegal rate,pass_rate,readability_score,quality_score,is_multi_table,text_model,vision_model
+4,Pie,Medium,0.4539,1.8155,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+4,Pie,Medium,0.4539,1.8155,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+4,Pie,Medium,0.4539,1.8155,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+5,Bar,Medium,1.2712,6.3559,5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+5,Bar,Medium,1.2712,6.3559,5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+5,Bar,Medium,1.2712,6.3559,5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+8,Pie,Easy,0.281,0.8431,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+8,Pie,Easy,0.281,0.8431,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+8,Pie,Easy,0.281,0.8431,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+9,Bar,Easy,0.2885,0.577,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+9,Bar,Easy,0.2885,0.577,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+9,Bar,Easy,0.2885,0.577,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+14,Pie,Easy,0.2774,0.5548,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+14,Pie,Easy,0.2774,0.5548,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+14,Pie,Easy,0.2774,0.5548,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+21,Pie,Medium,0.3725,0.7449,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+21,Pie,Medium,0.3725,0.7449,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+21,Pie,Medium,0.3725,0.7449,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+32,Bar,Medium,0.5312,1.5935,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+32,Bar,Medium,0.5312,1.5935,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+32,Bar,Medium,0.5312,1.5935,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+33,Pie,Easy,0.2729,1.0916,4,0.0,0.0,0.0,0.0,0.75,0.0,0.0,0.0,0.0,0.75,0.25,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+33,Pie,Easy,0.2729,1.0916,4,0.0,0.0,0.0,0.0,0.75,0.0,0.0,0.0,0.0,0.75,0.25,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+33,Pie,Easy,0.2729,1.0916,4,0.0,0.0,0.0,0.0,0.75,0.0,0.0,0.0,0.0,0.75,0.25,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+34,Bar,Easy,0.3093,1.5466,5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+34,Bar,Easy,0.3093,1.5466,5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+34,Bar,Easy,0.3093,1.5466,5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+35,Pie,Medium,0.44,0.44,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+35,Pie,Medium,0.44,0.44,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+35,Pie,Medium,0.44,0.44,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+36,Bar,Medium,1.981,3.962,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+36,Bar,Medium,1.981,3.962,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+36,Bar,Medium,1.981,3.962,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+37,Pie,Medium,8.1325,16.2651,2,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+37,Pie,Medium,8.1325,16.2651,2,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+37,Pie,Medium,8.1325,16.2651,2,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+46,Pie,Easy,0.3253,0.6506,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+46,Pie,Easy,0.3253,0.6506,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+46,Pie,Easy,0.3253,0.6506,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+54,Pie,Hard,11.7545,23.509,2,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+54,Pie,Hard,11.7545,23.509,2,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+54,Pie,Hard,11.7545,23.509,2,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+55,Bar,Hard,5.8964,11.7928,2,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+55,Bar,Hard,5.8964,11.7928,2,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+55,Bar,Hard,5.8964,11.7928,2,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+62,Scatter,Easy,0.3203,0.6405,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+62,Scatter,Easy,0.3203,0.6405,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+62,Scatter,Easy,0.3203,0.6405,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+63,Pie,Medium,0.3904,1.5615,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+63,Pie,Medium,0.3904,1.5615,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+63,Pie,Medium,0.3904,1.5615,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+64,Bar,Medium,0.4077,1.2231,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+64,Bar,Medium,0.4077,1.2231,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+64,Bar,Medium,0.4077,1.2231,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+65,Bar,Hard,0.6653,1.3305,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+65,Bar,Hard,0.6653,1.3305,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+65,Bar,Hard,0.6653,1.3305,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+68,Bar,Hard,2.4608,4.9215,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+68,Bar,Hard,2.4608,4.9215,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+68,Bar,Hard,2.4608,4.9215,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+69,Bar,Hard,0.6277,1.2554,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+69,Bar,Hard,0.6277,1.2554,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+69,Bar,Hard,0.6277,1.2554,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+72,Bar,Hard,0.6175,1.235,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+72,Bar,Hard,0.6175,1.235,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+72,Bar,Hard,0.6175,1.235,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+74,Bar,Easy,0.3588,2.1527,6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+74,Bar,Easy,0.3588,2.1527,6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+74,Bar,Easy,0.3588,2.1527,6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+77,Bar,Hard,0.639,1.2779,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+77,Bar,Hard,0.639,1.2779,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+77,Bar,Hard,0.639,1.2779,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+81,Pie,Hard,0.5455,2.1819,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+81,Pie,Hard,0.5455,2.1819,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+81,Pie,Hard,0.5455,2.1819,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+86,Bar,Easy,8.4922,16.9843,2,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+86,Bar,Easy,8.4922,16.9843,2,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+86,Bar,Easy,8.4922,16.9843,2,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+93,Pie,Medium,0.3706,1.4824,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+93,Pie,Medium,0.3706,1.4824,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+93,Pie,Medium,0.3706,1.4824,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+94,Bar,Medium,0.3837,1.5347,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+94,Bar,Medium,0.3837,1.5347,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+94,Bar,Medium,0.3837,1.5347,4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+95,Pie,Easy,0.2935,0.8804,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+95,Pie,Easy,0.2935,0.8804,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+95,Pie,Easy,0.2935,0.8804,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+96,Bar,Easy,0.3235,0.9705,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+96,Bar,Easy,0.3235,0.9705,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+96,Bar,Easy,0.3235,0.9705,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+98,Bar,Medium,0.4357,0.4357,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+98,Bar,Medium,0.4357,0.4357,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+98,Bar,Medium,0.4357,0.4357,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+103,Pie,Hard,0.605,1.2099,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+103,Pie,Hard,0.605,1.2099,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+103,Pie,Hard,0.605,1.2099,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+120,Bar,Medium,0.4026,0.4026,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+120,Bar,Medium,0.4026,0.4026,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+120,Bar,Medium,0.4026,0.4026,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+131,Pie,Medium,0.4783,0.4783,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+131,Pie,Medium,0.4783,0.4783,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+131,Pie,Medium,0.4783,0.4783,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+138,Pie,Medium,0.4566,0.9131,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+138,Pie,Medium,0.4566,0.9131,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+138,Pie,Medium,0.4566,0.9131,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+146,Stacked Bar,Hard,9.0095,9.0095,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+146,Stacked Bar,Hard,9.0095,9.0095,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+146,Stacked Bar,Hard,9.0095,9.0095,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+150,Pie,Medium,0.6553,0.6553,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+150,Pie,Medium,0.6553,0.6553,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+150,Pie,Medium,0.6553,0.6553,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+158,Bar,Hard,14.5488,14.5488,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+158,Bar,Hard,14.5488,14.5488,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+158,Bar,Hard,14.5488,14.5488,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+163,Line,Hard,1.2341,1.2341,1,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+163,Line,Hard,1.2341,1.2341,1,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+163,Line,Hard,1.2341,1.2341,1,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+173,Pie,Medium,0.3823,0.3823,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+173,Pie,Medium,0.3823,0.3823,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+173,Pie,Medium,0.3823,0.3823,1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+175,Scatter,Medium,0.513,1.539,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+175,Scatter,Medium,0.513,1.539,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+175,Scatter,Medium,0.513,1.539,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,True,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+186,Bar,Medium,0.4587,0.4587,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+186,Bar,Medium,0.4587,0.4587,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+186,Bar,Medium,0.4587,0.4587,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+189,Stacked Bar,Extra Hard,11.0628,44.2512,4,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+189,Stacked Bar,Extra Hard,11.0628,44.2512,4,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+189,Stacked Bar,Extra Hard,11.0628,44.2512,4,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+194,Stacked Bar,Extra Hard,4.0728,4.0728,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+194,Stacked Bar,Extra Hard,4.0728,4.0728,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+194,Stacked Bar,Extra Hard,4.0728,4.0728,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+195,Stacked Bar,Extra Hard,3.9714,3.9714,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+195,Stacked Bar,Extra Hard,3.9714,3.9714,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+195,Stacked Bar,Extra Hard,3.9714,3.9714,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+196,Stacked Bar,Extra Hard,11.7236,58.6179,5,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+196,Stacked Bar,Extra Hard,11.7236,58.6179,5,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+196,Stacked Bar,Extra Hard,11.7236,58.6179,5,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+201,Stacked Bar,Extra Hard,4.9581,24.7907,5,0.0,0.0,0.0,0.2,0.0,0.0,0.0,0.0,0.0,0.2,0.8,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+201,Stacked Bar,Extra Hard,4.9581,24.7907,5,0.0,0.0,0.0,0.2,0.0,0.0,0.0,0.0,0.0,0.2,0.8,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+201,Stacked Bar,Extra Hard,4.9581,24.7907,5,0.0,0.0,0.0,0.2,0.0,0.0,0.0,0.0,0.0,0.2,0.8,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+202,Stacked Bar,Extra Hard,3.9638,7.9277,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+202,Stacked Bar,Extra Hard,3.9638,7.9277,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+202,Stacked Bar,Extra Hard,3.9638,7.9277,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+205,Bar,Medium,0.4049,1.2147,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+205,Bar,Medium,0.4049,1.2147,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+205,Bar,Medium,0.4049,1.2147,3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+210,Stacked Bar,Extra Hard,3.2043,3.2043,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+210,Stacked Bar,Extra Hard,3.2043,3.2043,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
+210,Stacked Bar,Extra Hard,3.2043,3.2043,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,False,Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8,None
