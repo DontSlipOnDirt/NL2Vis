@@ -70,19 +70,28 @@ class EvaluationResult:
                 t for t in inference_times if isinstance(t, (float, int))
             ]
             count = len(instance_results)
+            avg_inference_time = (
+                sum(valid_inference_times) / len(valid_inference_times)
+                if valid_inference_times
+                else None
+            )
+            total_inference_time = (
+                sum(valid_inference_times) if valid_inference_times else None
+            )
+            inference_count = len(valid_inference_times)
             record = {
                 "id": id,
                 "chart": self.dataset.dict[id]["chart"],
                 "hardness": self.dataset.dict[id]["hardness"],
-                "avg_inference_time_seconds": (
-                    sum(valid_inference_times) / len(valid_inference_times)
-                    if valid_inference_times
+                "avg_inference_time": (
+                    round(avg_inference_time, 4) if avg_inference_time is not None else None
+                ),
+                "total_inference_time": (
+                    round(total_inference_time, 4)
+                    if total_inference_time is not None
                     else None
                 ),
-                "total_inference_time_seconds": (
-                    sum(valid_inference_times) if valid_inference_times else None
-                ),
-                "inference_count": len(valid_inference_times),
+                "inference_count": round(inference_count, 4),
             }
 
             # fail rate
@@ -170,6 +179,13 @@ class EvaluationResult:
                 and key != "hardness"
             ):
                 score[key] = records[key].mean()
+
+        if "total_inference_time" in score:
+            score["avg_total_inference_time"] = score.pop("total_inference_time")
+
+        for key in ["avg_inference_time", "avg_total_inference_time", "inference_count"]:
+            if key in score and score[key] is not None:
+                score[key] = round(score[key], 4)
 
         return score
 
