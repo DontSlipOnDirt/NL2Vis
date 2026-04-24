@@ -5,7 +5,9 @@
     "timestamp": "2026-04-23T04:32:42.851347",
     "library": "matplotlib",
     "table_type": "all",
-    "dataset_size": 1150
+    "dataset_size": 1150,
+    "ablation_skip_processor": false,
+    "ablation_skip_composer_template": false
   },
   "scores": {
     "invalid_rate": 0.058681159420289855,

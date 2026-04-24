@@ -166,7 +166,9 @@ def save_results(result, text_model_name: str, vision_model_name: Optional[str],
         "timestamp": datetime.now().isoformat(),
         "library": library,
         "table_type": table_type,
-        "dataset_size": dataset_size
+        "dataset_size": dataset_size,
+        "ablation_skip_processor": app_config.ABLATION_SKIP_PROCESSOR,
+        "ablation_skip_composer_template": app_config.ABLATION_SKIP_COMPOSER_TEMPLATE,
     }
     
     # Save detailed results with model info

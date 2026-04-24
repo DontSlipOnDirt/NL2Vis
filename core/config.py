@@ -44,9 +44,10 @@ VLLM_BASE_URL = f"http://{VLLM_HOST}:{VLLM_PORT}/v1"
 
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct-AWQ"
+VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
-VLLM_MODEL_NAME = "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
+# VLLM_MODEL_NAME = "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
 # VLLM_MODEL_NAME = "Qwen/Qwen3.6-27B-FP8"
 
 # VLLM_MODEL_NAME = "Qwen/Qwen3.5-27B-FP8"
@@ -93,9 +94,9 @@ VISION_VLLM_HOST = "localhost"
 VISION_VLLM_PORT = 8000
 VISION_VLLM_BASE_URL = f"http://{VISION_VLLM_HOST}:{VISION_VLLM_PORT}/v1"
 
+# VISION_VLLM_MODEL_NAME = "Qwen/Qwen2.5-VL-32B-Instruct-AWQ"
 # VISION_VLLM_MODEL_NAME = "Qwen/Qwen2.5-VL-7B-Instruct-AWQ"
-# VISION_VLLM_MODEL_NAME = "Qwen/Qwen2.5-VL-72B-Instruct-AWQ"
-VISION_VLLM_MODEL_NAME = "Qwen/Qwen2.5-VL-7B-Instruct-AWQ"
+VISION_VLLM_MODEL_NAME = None
 if USE_VISION_VLLM:
     VLLM_MODEL_NAME = VISION_VLLM_MODEL_NAME
 
