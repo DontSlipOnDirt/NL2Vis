@@ -44,8 +44,9 @@ VLLM_BASE_URL = f"http://{VLLM_HOST}:{VLLM_PORT}/v1"
 
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct-AWQ"
-VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct"
-# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ"
+# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct"
+VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ"
+# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
 # VLLM_MODEL_NAME = "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
 # VLLM_MODEL_NAME = "Qwen/Qwen3.6-27B-FP8"
@@ -119,6 +120,6 @@ VISION_VLLM_DTYPE = "auto"
 # These are mutated at runtime by run_ablation.py between runs.
 # =============================================================================
 # Skip Processor LLM call — pass raw DB schema directly to Composer
-ABLATION_SKIP_PROCESSOR = True
+ABLATION_SKIP_PROCESSOR = False
 # Use simplified prompt in Composer (without_composer_template) instead of CoT templates
 ABLATION_SKIP_COMPOSER_TEMPLATE = False
