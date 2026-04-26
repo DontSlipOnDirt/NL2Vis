@@ -45,8 +45,8 @@ VLLM_BASE_URL = f"http://{VLLM_HOST}:{VLLM_PORT}/v1"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct-AWQ"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct"
-VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ"
-# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
+# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ"
+VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
 # VLLM_MODEL_NAME = "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
 # VLLM_MODEL_NAME = "Qwen/Qwen3.6-27B-FP8"
@@ -76,7 +76,7 @@ VLLM_DTYPE = "auto"
 # Toggle for Vision Models for either visual critic or inference in NL2Vis
 # toggle to use OpenAI Vision API (if False, tries to use vLLM vision model as visual critic) 
 # Both can be True, in which case vLLM vision is used for NL2Vis and OpenAI vision is used for visual critic
-USE_OPENAI_VISION = False
+USE_OPENAI_VISION = True
 USE_VISION_VLLM = False
 
 # Toggle for Reviewer Agent
