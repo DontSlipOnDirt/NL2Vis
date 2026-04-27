@@ -28,6 +28,14 @@ call_idx = 0
 _vllm_client: Optional[OpenAI] = None
 
 
+def get_token_usage_snapshot():
+    return {
+        "total_prompt_tokens": total_prompt_tokens,
+        "total_response_tokens": total_response_tokens,
+        "call_idx": call_idx,
+    }
+
+
 def get_vllm_client() -> OpenAI:
     """Get or create vLLM OpenAI-compatible client."""
     global _vllm_client

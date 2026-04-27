@@ -16,6 +16,14 @@ total_response_tokens = 0
 call_idx = 0
 
 
+def get_token_usage_snapshot():
+    return {
+        "total_prompt_tokens": total_prompt_tokens,
+        "total_response_tokens": total_response_tokens,
+        "call_idx": call_idx,
+    }
+
+
 def init_log_path(my_log_path):
     global total_prompt_tokens
     global total_response_tokens

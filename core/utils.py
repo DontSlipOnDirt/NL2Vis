@@ -145,6 +145,8 @@ def extract_world_info(message_dict: dict):
     info_dict['idx'] = message_dict.get('idx', 0)
     info_dict['db_id'] = message_dict['db_id']
     info_dict['query'] = message_dict['query']
+    if 'instance_id' in message_dict:
+        info_dict['instance_id'] = message_dict['instance_id']
     info_dict['difficulty'] = message_dict.get('difficulty', '')
     info_dict['ground_truth'] = message_dict.get('ground_truth', '')
     info_dict['send_to'] = message_dict.get('send_to', '')

@@ -5,9 +5,13 @@ import base64
 import json
 import logging
 import os
+from importlib import import_module
 from typing import Union
 
-import cairosvg
+try:
+    cairosvg = import_module("cairosvg")
+except ImportError:
+    cairosvg = None
 import pandas as pd
 from attr import dataclass
 
@@ -43,6 +47,7 @@ class EvaluationDetail:
     id: str
     results: list[list[CheckResult]]
     inference_times: list[float | None] | None = None
+    token_usages: list[dict[str, int | float | None] | None] | None = None
 
 
 VALID_ASPECTS = ["code execution", "surface-form check"]
@@ -66,8 +71,12 @@ class EvaluationResult:
             id = detail.id
             instance_results = detail.results
             inference_times = detail.inference_times or []
+            token_usages = detail.token_usages or []
             valid_inference_times = [
                 t for t in inference_times if isinstance(t, (float, int))
+            ]
+            valid_token_usages = [
+                token_usage for token_usage in token_usages if isinstance(token_usage, dict)
             ]
             count = len(instance_results)
             avg_inference_time = (
@@ -79,6 +88,29 @@ class EvaluationResult:
                 sum(valid_inference_times) if valid_inference_times else None
             )
             inference_count = len(valid_inference_times)
+            total_prompt_tokens = sum(
+                (token_usage.get("prompt_tokens", 0) or 0)
+                for token_usage in valid_token_usages
+            )
+            total_response_tokens = sum(
+                (token_usage.get("response_tokens", 0) or 0)
+                for token_usage in valid_token_usages
+            )
+            total_tokens = sum(
+                (
+                    token_usage.get(
+                        "total_tokens",
+                        (token_usage.get("prompt_tokens", 0) or 0)
+                        + (token_usage.get("response_tokens", 0) or 0),
+                    )
+                    or 0
+                )
+                for token_usage in valid_token_usages
+            )
+            token_count = len(valid_token_usages)
+            avg_prompt_tokens = total_prompt_tokens / token_count if token_count else None
+            avg_response_tokens = total_response_tokens / token_count if token_count else None
+            avg_total_tokens = total_tokens / token_count if token_count else None
             record = {
                 "id": id,
                 "chart": self.dataset.dict[id]["chart"],
@@ -92,6 +124,19 @@ class EvaluationResult:
                     else None
                 ),
                 "inference_count": round(inference_count, 4),
+                "total_prompt_tokens": total_prompt_tokens,
+                "total_response_tokens": total_response_tokens,
+                "total_tokens": total_tokens,
+                "avg_prompt_tokens": round(avg_prompt_tokens, 4)
+                if avg_prompt_tokens is not None
+                else None,
+                "avg_response_tokens": round(avg_response_tokens, 4)
+                if avg_response_tokens is not None
+                else None,
+                "avg_total_tokens": round(avg_total_tokens, 4)
+                if avg_total_tokens is not None
+                else None,
+                "token_count": token_count,
             }
 
             # fail rate
@@ -132,11 +177,9 @@ class EvaluationResult:
                 false_count = len([item for item in evaluate_result if not item])
                 record[dimension[0]] = false_count / count
                 pass_count -= false_count
-                records.append(record)
 
             # pass rate
             record["pass_rate"] = pass_count / count
-            records.append(record)
 
             # readability score
             evaluate_result = [
@@ -156,10 +199,12 @@ class EvaluationResult:
 
             record["quality_score"] = sum(evaluate_result) / count
 
+            records.append(record.copy())
+
         return pd.DataFrame(records)
 
-    def score(self):
-        records = self.detail_records()
+    def score(self, records: pd.DataFrame | None = None):
+        records = records if records is not None else self.detail_records()
         rename_score_key = lambda key: {
             "total_inference_time": "avg_total_inference_time",
             "inference_count": "avg_inference_count",
@@ -181,6 +226,9 @@ class EvaluationResult:
                 and key != "id"
                 and key != "chart"
                 and key != "hardness"
+                and key != "is_multi_table"
+                and key != "text_model"
+                and key != "vision_model"
             ):
                 output_key = rename_score_key(key)
                 score[output_key] = records[key].mean()
@@ -193,6 +241,8 @@ class EvaluationResult:
 
 
 def convert_svg_to_base64(svg_string):
+    if cairosvg is None:
+        raise RuntimeError("cairosvg is required for SVG to base64 conversion")
     png_string = cairosvg.svg2png(bytestring=svg_string)
     base64_encoded = base64.b64encode(png_string).decode("utf-8")
     return f"data:image/png;base64,{base64_encoded}"
@@ -232,6 +282,7 @@ class Evaluator:
             codes = []
             instance_results = []
             inference_times = []
+            token_usages = []
             nl_queries = instance["nl_queries"]
             tables = instance["tables"]
 
@@ -273,10 +324,14 @@ class Evaluator:
                     context = {}
                     context["tables"] = tables
                     inference_times.append(None)
+                    token_usages.append(None)
                 else:
-                    code, context = agent.generate(nl_query, tables, config)
+                    call_config = dict(config)
+                    call_config["instance_id"] = instance["id"]
+                    code, context = agent.generate(nl_query, tables, call_config)
                     codes.append(code)
                     inference_times.append(context.get("inference_time_seconds"))
+                    token_usages.append(context.get("token_stats"))
                 if code is None:
                     results = [
                         CheckResult(
@@ -310,7 +365,9 @@ class Evaluator:
                 instance_results.append(results)
 
             evaluation_details.append(
-                EvaluationDetail(instance["id"], instance_results, inference_times)
+                EvaluationDetail(
+                    instance["id"], instance_results, inference_times, token_usages
+                )
             )
             if use_logs:
                 logging.info(f"Instance ({instance['id']}) evaluation finished.")
@@ -326,6 +383,7 @@ class Evaluator:
                                 "codes": codes,
                                 "evaluations": instance_results,
                                 "inference_times": inference_times,
+                                "token_usages": token_usages,
                             }
                         )
                     )

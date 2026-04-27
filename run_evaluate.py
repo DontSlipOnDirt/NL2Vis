@@ -118,36 +118,18 @@ def save_results(result, text_model_name: str, vision_model_name: Optional[str],
         return False
     
     detailed_df['is_multi_table'] = detailed_df['id'].apply(is_multi_table)
-    
-    # Calculate single and multi-table scores
-    def calc_scores(df_subset):
+
+    def summarize_subset(df_subset):
         if len(df_subset) == 0:
             return {
-                "query_count": 0, 
-                "invalid_rate": 0, 
-                "illegal_rate": 0, 
-                "pass_rate": 0,
-                "readability_score": 0,
-                "quality_score": 0
+                "query_count": 0,
             }
-        
-        scores = {
-            "query_count": len(df_subset),
-            "invalid_rate": df_subset['invalid_rate'].mean(),
-            "illegal_rate": df_subset['illegal rate'].mean(),
-            "pass_rate": df_subset['pass_rate'].mean(),
-        }
-        
-        if 'readability_score' in df_subset.columns:
-            scores['readability_score'] = df_subset['readability_score'].mean()
-        
-        if 'quality_score' in df_subset.columns:
-            scores['quality_score'] = df_subset['quality_score'].mean()
-            
+        scores = result.score(df_subset)
+        scores["query_count"] = len(df_subset)
         return scores
-    
-    single_scores = calc_scores(detailed_df[~detailed_df['is_multi_table']])
-    multi_scores = calc_scores(detailed_df[detailed_df['is_multi_table']])
+
+    single_scores = summarize_subset(detailed_df[~detailed_df['is_multi_table']])
+    multi_scores = summarize_subset(detailed_df[detailed_df['is_multi_table']])
 
     # Create results directory
     results_dir = Path("results")
@@ -177,7 +159,7 @@ def save_results(result, text_model_name: str, vision_model_name: Optional[str],
     detailed_df.to_csv(detailed_csv_path, index=False)
     
     # Save scores with metadata and single/multi breakdown
-    score = result.score()
+    score = result.score(detailed_df)
     final_output = {
         "metadata": run_metadata,
         "scores": score,

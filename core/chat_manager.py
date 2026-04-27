@@ -20,6 +20,7 @@ if USE_VLLM:
         from core import vllm_client
         LLM_API_FUC = vllm_client.safe_call_llm
         INIT_LOG_PATH_FUNC = vllm_client.init_log_path
+        TOKEN_SNAPSHOT_FUNC = vllm_client.get_token_usage_snapshot
         print(f"[CHAT_MANAGER] Using vLLM client")
     except ImportError as e:
         print(f"[CHAT_MANAGER] vLLM import failed: {e}")
@@ -31,10 +32,17 @@ if not USE_VLLM:
         from core import llm
         LLM_API_FUC = llm.safe_call_llm
         INIT_LOG_PATH_FUNC = llm.init_log_path
+        TOKEN_SNAPSHOT_FUNC = llm.get_token_usage_snapshot
         print(f"[CHAT_MANAGER] Using core.llm (Azure OpenAI)")
     except ImportError as e:
         print(f"[CHAT_MANAGER] core.llm import failed: {e}")
         raise ImportError("No valid LLM API function found. Please check your configuration and imports.")
+
+
+def _snapshot_tokens():
+    if TOKEN_SNAPSHOT_FUNC is None:
+        return None
+    return TOKEN_SNAPSHOT_FUNC()
 
 import time
 from pprint import pprint
@@ -125,13 +133,31 @@ class ChatManager(object):
             "send_to": SYSTEM_NAME,
             "library": config.get("library", "matplotlib"),
         }
+        if "instance_id" in config:
+            message["instance_id"] = config["instance_id"]
 
+        start_snapshot = _snapshot_tokens()
         code, exec_time = self.start(message, return_timing=True)
+        end_snapshot = _snapshot_tokens()
+
+        token_stats = None
+        if start_snapshot is not None and end_snapshot is not None:
+            prompt_tokens = end_snapshot["total_prompt_tokens"] - start_snapshot["total_prompt_tokens"]
+            response_tokens = end_snapshot["total_response_tokens"] - start_snapshot["total_response_tokens"]
+            call_count = end_snapshot["call_idx"] - start_snapshot["call_idx"]
+            token_stats = {
+                "prompt_tokens": prompt_tokens,
+                "response_tokens": response_tokens,
+                "total_tokens": prompt_tokens + response_tokens,
+                "call_count": call_count,
+            }
+
         context = {
             "db_id": db_id,
             "query": nl_query,
             "tables": tables,
             "inference_time_seconds": exec_time,
+            "token_stats": token_stats,
         }
         return code, context
 
