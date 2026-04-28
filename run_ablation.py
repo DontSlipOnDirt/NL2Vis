@@ -40,6 +40,7 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 # Model registry — add new models here
 # ---------------------------------------------------------------------------
 MODEL_REGISTRY = {
+    "qwen7b": "Qwen/Qwen2.5-Coder-7B-Instruct-AWQ",
     "qwen14b": "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ",
     # "qwen27b": "Qwen/Qwen3.6-27B-FP8",
     "qwen30b": "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8",
@@ -51,9 +52,9 @@ MODEL_REGISTRY = {
 # ---------------------------------------------------------------------------
 ABLATION_CONFIGS = [
     # ("full",                 False, False),
-    ("no_processor",         True,  False),
+    # ("no_processor",         True,  False),
     # ("no_composer_template", False, True),
-    # ("no_proc_no_comp_tmpl", True,  True),
+    ("no_proc_no_comp_tmpl", True,  True),
 ]
 
 
