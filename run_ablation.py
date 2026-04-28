@@ -53,8 +53,8 @@ MODEL_REGISTRY = {
 ABLATION_CONFIGS = [
     # ("full",                 False, False),
     # ("no_processor",         True,  False),
-    # ("no_composer_template", False, True),
-    ("no_proc_no_comp_tmpl", True,  True),
+    ("no_composer_template", False, True),
+    # ("no_proc_no_comp_tmpl", True,  True),
 ]
 
 
