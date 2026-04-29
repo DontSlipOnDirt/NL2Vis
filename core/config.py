@@ -121,6 +121,8 @@ VISION_VLLM_DTYPE = "auto"
 # These are mutated at runtime by run_ablation.py between runs.
 # =============================================================================
 # Skip Processor LLM call — pass raw DB schema directly to Composer
-ABLATION_SKIP_PROCESSOR = True
+ABLATION_SKIP_PROCESSOR = False
 # Use simplified prompt in Composer (without_composer_template) instead of CoT templates
 ABLATION_SKIP_COMPOSER_TEMPLATE = False
+# Skip Validator execution and refinement — return generated code without validation
+ABLATION_SKIP_VALIDATOR = False

@@ -151,6 +151,7 @@ def save_results(result, text_model_name: str, vision_model_name: Optional[str],
         "dataset_size": dataset_size,
         "ablation_skip_processor": app_config.ABLATION_SKIP_PROCESSOR,
         "ablation_skip_composer_template": app_config.ABLATION_SKIP_COMPOSER_TEMPLATE,
+        "ablation_skip_validator": app_config.ABLATION_SKIP_VALIDATOR,
     }
     
     # Save detailed results with model info

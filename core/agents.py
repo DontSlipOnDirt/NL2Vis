@@ -1255,12 +1255,17 @@ print("y_data:", df['{y_col}'].tolist())
         library = message.get('library', 'matplotlib')
         code = self._translate(db_path, vql, library)
 
-        # code = message.get('pred', self._translate(db_path, vql, library))
+        # Ablation: skip Validator execution — return generated code without validation
+        try:
+            from core import config as _cfg
+            _skip_validator = getattr(_cfg, 'ABLATION_SKIP_VALIDATOR', False)
+        except ImportError:
+            _skip_validator = False
 
-        # # without validator
-        # message['pred'] = code
-        # message['send_to'] = SYSTEM_NAME
-        # return
+        if _skip_validator:
+            message['pred'] = code if code else "import matplotlib.pyplot as plt"
+            message['send_to'] = SYSTEM_NAME
+            return
 
         # Handle translation failure - set pred to None/fallback and terminate
         if code is None:

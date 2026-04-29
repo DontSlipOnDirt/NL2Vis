@@ -9,7 +9,11 @@ Ablation configurations tested:
   full                  - Processor + full CoT Composer + Validator (baseline)
   no_processor          - Raw schema + full CoT Composer + Validator
   no_composer_template  - Processor + simplified Composer prompt + Validator
+  no_validator          - Processor + full CoT Composer (no execution/refinement)
   no_proc_no_comp_tmpl  - Raw schema + simplified Composer prompt + Validator
+  no_proc_no_val        - Raw schema + full CoT Composer (no validation)
+  no_comp_tmpl_no_val   - Processor + simplified Composer (no validation)
+  minimal               - Raw schema + simplified Composer (no validation)
 
 Usage:
     # Make sure vLLM server is running with the target model, then:
@@ -48,13 +52,17 @@ MODEL_REGISTRY = {
 }
 
 # ---------------------------------------------------------------------------
-# Ablation configurations: (label, skip_processor, skip_composer_template)
+# Ablation configurations: (label, skip_processor, skip_composer_template, skip_validator)
 # ---------------------------------------------------------------------------
 ABLATION_CONFIGS = [
-    # ("full",                 False, False),
-    # ("no_processor",         True,  False),
-    ("no_composer_template", False, True),
-    # ("no_proc_no_comp_tmpl", True,  True),
+    # ("full",                 False, False, False),
+    # ("no_processor",         True,  False, False),
+    # ("no_composer_template", False, True,  False),
+    ("no_validator",         False, False, True),
+    # ("no_proc_no_comp_tmpl", True,  True,  False),
+    # ("no_proc_no_val",       True,  False, True),
+    # ("no_comp_tmpl_no_val",  False, True,  True),
+    # ("minimal",              True,  True,  True),
 ]
 
 
@@ -90,6 +98,7 @@ def run_single_ablation(
     config_name: str,
     skip_processor: bool,
     skip_composer_template: bool,
+    skip_validator: bool,
     model_key: str,
     model_full: str,
     dry_run: bool = False,
@@ -103,18 +112,20 @@ def run_single_ablation(
     # Apply ablation flags
     app_config.ABLATION_SKIP_PROCESSOR = skip_processor
     app_config.ABLATION_SKIP_COMPOSER_TEMPLATE = skip_composer_template
+    app_config.ABLATION_SKIP_VALIDATOR = skip_validator
 
     tag = f"`{config_name}` | `{model_key}`"
     print(f"\n{'='*60}")
     print(f"ABLATION: {config_name}  |  Model: {model_key}")
-    print(f"  skip_processor={skip_processor}, skip_composer_template={skip_composer_template}")
+    print(f"  skip_processor={skip_processor}, skip_composer_template={skip_composer_template}, skip_validator={skip_validator}")
     print(f"{'='*60}")
 
     send_discord(
         f"**Config:** `{config_name}`\n"
         f"**Model:** `{model_full}`\n"
         f"- Skip Processor LLM: {skip_processor}\n"
-        f"- Simplified Composer Prompt: {skip_composer_template}",
+        f"- Simplified Composer Prompt: {skip_composer_template}\n"
+        f"- Skip Validator Execution: {skip_validator}",
         title="🔬 Ablation Run Started",
         color=0x5865F2,
     )
@@ -198,6 +209,7 @@ def run_single_ablation(
         # Always restore flags to safe defaults
         app_config.ABLATION_SKIP_PROCESSOR = False
         app_config.ABLATION_SKIP_COMPOSER_TEMPLATE = False
+        app_config.ABLATION_SKIP_VALIDATOR = False
 
 
 # ---------------------------------------------------------------------------
@@ -250,11 +262,12 @@ def main() -> None:
     all_scores: dict[str, dict | None] = {}
     start_time = datetime.now()
 
-    for config_name, skip_proc, skip_comp in configs_to_run:
+    for config_name, skip_proc, skip_comp, skip_val in configs_to_run:
         scores = run_single_ablation(
             config_name=config_name,
             skip_processor=skip_proc,
             skip_composer_template=skip_comp,
+            skip_validator=skip_val,
             model_key=model_key,
             model_full=model_full,
             dry_run=args.dry_run,
