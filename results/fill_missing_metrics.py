@@ -22,26 +22,26 @@ import pandas as pd
 
 # Configure the folders to process here. Relative paths are resolved from the repo root.
 TARGET_FOLDERS = [
-    Path(r"results/20260424_112106_Qwen2.5-Coder-7B-Instruct_NoVision"),
-    Path(r"results/20260421_072403_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision_ablation_no_composer_template"),
-    Path(r"results/20260423_043242_Qwen3-Coder-30B-A3B-Instruct-FP8_NoVision"),
-    Path(r"results/20260425_072348_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision"),
-    Path(r"results/20260413_230818_Qwen2.5-7B-Instruct_gpt-4o-mini"),
-    Path(r"results/20260413_123628_Qwen3-Coder-30B-A3B-Instruct-FP8_gpt-4o-mini"),
-    Path(r"results/20260412_232504_Qwen2.5-Coder-14B-Instruct-AWQ_gpt-4o-mini"),
-    Path(r"results/20260421_030056_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision_ablation_no_processor"),
-    Path(r"results/20260426_232824_Qwen2.5-Coder-32B-Instruct-AWQ_NoVision"),
-    Path(r"results/20260426_062107_Qwen2.5-Coder-14B-Instruct_gpt-4o-mini"),
-    Path(r"results/20260427_161919_Qwen2.5-Coder-32B-Instruct-AWQ_NoVision"),
-    Path(r"results/20260418_163315_Qwen2.5-Coder-32B-Instruct-AWQ_gpt-4o-mini"),
-    Path(r"results/20260421_082913_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision_ablation_no_proc_no_comp_tmpl"),
-    Path(r"results/20260422_054917_Qwen2.5-Coder-32B-Instruct-AWQ_NoVision_ablation_no_composer_template"),
-    Path(r"results/20260420_014754_Qwen2.5-Coder-7B-Instruct-AWQ_NoVision"),
-    Path(r"results/20260421_160411_Qwen2.5-Coder-32B-Instruct-AWQ_NoVision_ablation_no_processor"),
-    Path(r"results/20260420_142325_Qwen2.5-Coder-32B-Instruct-AWQ_gpt-4o-mini"),
-    Path(r"results/20260423_010457_Qwen3-Coder-30B-A3B-Instruct-FP8_NoVision_ablation_no_processor"),
-    Path(r"results/20260425_024744_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision"),
-    Path(r"results/20260421_102609_Qwen3-Coder-30B-A3B-Instruct-FP8_NoVision_ablation_no_processor")
+    # Path(r"results/20260424_112106_Qwen2.5-Coder-7B-Instruct_NoVision"),
+    # Path(r"results/20260421_072403_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision_ablation_no_composer_template"),
+    # Path(r"results/20260423_043242_Qwen3-Coder-30B-A3B-Instruct-FP8_NoVision"),
+    # Path(r"results/20260425_072348_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision"),
+    # Path(r"results/20260413_230818_Qwen2.5-7B-Instruct_gpt-4o-mini"),
+    # Path(r"results/20260413_123628_Qwen3-Coder-30B-A3B-Instruct-FP8_gpt-4o-mini"),
+    # Path(r"results/20260412_232504_Qwen2.5-Coder-14B-Instruct-AWQ_gpt-4o-mini"),
+    # Path(r"results/20260421_030056_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision_ablation_no_processor"),
+    # Path(r"results/20260426_232824_Qwen2.5-Coder-32B-Instruct-AWQ_NoVision"),
+    # Path(r"results/20260426_062107_Qwen2.5-Coder-14B-Instruct_gpt-4o-mini"),
+    # Path(r"results/20260427_161919_Qwen2.5-Coder-32B-Instruct-AWQ_NoVision"),
+    # Path(r"results/20260418_163315_Qwen2.5-Coder-32B-Instruct-AWQ_gpt-4o-mini"),
+    # Path(r"results/20260421_082913_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision_ablation_no_proc_no_comp_tmpl"),
+    # Path(r"results/20260422_054917_Qwen2.5-Coder-32B-Instruct-AWQ_NoVision_ablation_no_composer_template"),
+    # Path(r"results/20260420_014754_Qwen2.5-Coder-7B-Instruct-AWQ_NoVision"),
+    # Path(r"results/20260421_160411_Qwen2.5-Coder-32B-Instruct-AWQ_NoVision_ablation_no_processor"),
+    # Path(r"results/20260420_142325_Qwen2.5-Coder-32B-Instruct-AWQ_gpt-4o-mini"),
+    # Path(r"results/20260423_010457_Qwen3-Coder-30B-A3B-Instruct-FP8_NoVision_ablation_no_processor"),
+    # Path(r"results/20260425_024744_Qwen2.5-Coder-14B-Instruct-AWQ_NoVision"),
+    # Path(r"results/20260421_102609_Qwen3-Coder-30B-A3B-Instruct-FP8_NoVision_ablation_no_processor")
 ]
 
 DATASET_PATH = Path(r"visEval_dataset/visEval.json")

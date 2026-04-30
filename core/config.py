@@ -46,12 +46,11 @@ VLLM_BASE_URL = f"http://{VLLM_HOST}:{VLLM_PORT}/v1"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct-AWQ"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-7B-Instruct"
 # VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct-AWQ"
-# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
-VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
-# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct"
+VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-14B-Instruct"
+# VLLM_MODEL_NAME = "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
 # VLLM_MODEL_NAME = "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8"
-# VLLM_MODEL_NAME = "Qwen/Qwen3.6-27B-FP8"
 
+# VLLM_MODEL_NAME = "Qwen/Qwen3.6-27B-FP8"
 # VLLM_MODEL_NAME = "Qwen/Qwen3.5-27B-FP8"
 # VLLM_MODEL_NAME = "Qwen/Qwen3.6-35B-A3B-FP8"
 # VLLM_MODEL_NAME = "unsloth/Qwen3.6-35B-A3B-GGUF:UD-Q4_K_XL"
@@ -125,4 +124,4 @@ ABLATION_SKIP_PROCESSOR = False
 # Use simplified prompt in Composer (without_composer_template) instead of CoT templates
 ABLATION_SKIP_COMPOSER_TEMPLATE = False
 # Skip Validator execution and refinement — return generated code without validation
-ABLATION_SKIP_VALIDATOR = False
+ABLATION_SKIP_VALIDATOR = True
